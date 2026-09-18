@@ -4,6 +4,22 @@ An authoritative, modern, and accessible civic portal for **Equity Bridge Founda
 
 ---
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Design System & Aesthetics](#design-system--aesthetics)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running Locally](#running-locally)
+  - [Building for Production](#building-for-production)
+- [Security & Privacy (OWASP Compliance)](#security--privacy-owasp-compliance)
+- [License](#license)
+
+---
+
 ## Overview
 
 Equity Bridge Foundation addresses structural access-to-justice challenges in Ghana through three primary pillars:
