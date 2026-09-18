@@ -15,6 +15,10 @@ export async function POST(request: Request) {
   }
 
   const supabase = createSupabasePublicServerClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Contact submissions are not configured." }, { status: 503 });
+  }
+
   const { error } = await supabase.from("contact_submissions").insert(submission);
 
   if (error) {
