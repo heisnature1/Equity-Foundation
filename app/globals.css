@@ -5,9 +5,13 @@
      of the same hue rather than a hand-picked hex value. */
   --brand-ink-h: 0 0% 7%;
   --brand-gold-h: 45 62% 53%;
+  --brand-emerald-h: 164 74% 27%;
 
   --brand-ink: hsl(var(--brand-ink-h));
-  --brand-forest: hsl(var(--brand-ink-h));
+  --brand-forest: hsl(var(--brand-emerald-h));
+  --brand-emerald: hsl(var(--brand-emerald-h));
+  --brand-emerald-light: hsl(164 64% 38%);
+  --brand-emerald-soft: hsl(164 74% 27% / 0.12);
   --brand-gold: hsl(var(--brand-gold-h));
   --brand-gold-deep: hsl(45 68% 40%);
   --brand-gold-soft: hsl(45 62% 53% / 0.12);
@@ -430,6 +434,16 @@ main {
   font-size: clamp(2.25rem, 3.8vw, 4.25rem);
   letter-spacing: -0.035em;
   line-height: 1.12;
+}
+
+.hero__highlight {
+  color: var(--brand-emerald);
+  display: inline-block;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.hero__highlight:hover {
+  color: var(--brand-emerald-light);
 }
 
 .hero__content {

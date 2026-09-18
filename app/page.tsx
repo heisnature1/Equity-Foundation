@@ -84,6 +84,21 @@ const insights = [
 
 export const dynamic = "force-dynamic";
 
+function renderHeroTitle(title: string) {
+  const parts = title.split(/(Rights?|Justice)/gi);
+  return parts.map((part, i) => {
+    const lower = part.toLowerCase();
+    if (lower === "right" || lower === "rights" || lower === "justice") {
+      return (
+        <span key={i} className={`hero__highlight hero__highlight--${lower}`}>
+          {part}
+        </span>
+      );
+    }
+    return part;
+  });
+}
+
 export default async function Home() {
   const [homeContent, siteSettings] = await Promise.all([
     getPublishedPageContent<HomeContent>("home"),
@@ -112,7 +127,7 @@ export default async function Home() {
         <div className="container hero__frame">
           <div className="hero__content">
             <p className="eyebrow">{heroEyebrow}</p>
-            <h1>{heroTitle}</h1>
+            <h1>{renderHeroTitle(heroTitle)}</h1>
             <p className="hero__lede">{heroDescription}</p>
             <div className="hero__actions">
               <Link href="/legal-help" className="button button--primary">

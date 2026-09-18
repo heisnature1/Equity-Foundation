@@ -39,9 +39,9 @@ export default function DottedSurface({
     const height = container.clientHeight || window.innerHeight;
 
     const camera = new THREE.PerspectiveCamera(55, width / height, 1, 10000);
-    // Position camera looking slightly downward at the lowered wave plane
-    camera.position.set(0, 360, 780);
-    camera.lookAt(0, -60, 0);
+    // Position camera looking down toward the lower hero area
+    camera.position.set(0, 390, 740);
+    camera.lookAt(0, -110, 0);
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -78,10 +78,10 @@ export default function DottedSurface({
     const positions = new Float32Array(numParticles * 3);
     const colors = new Float32Array(numParticles * 3);
 
-    // Deep rich bronze and warm gold colors with high contrast against the light canvas
-    const colorA = new THREE.Color("hsl(42, 85%, 32%)"); // Deep rich gold
-    const colorB = new THREE.Color("hsl(36, 68%, 26%)"); // Burnished bronze
-    const colorC = new THREE.Color("hsl(45, 80%, 36%)"); // Warm amber gold
+    // Tri-color palette: Gold, Deep Ink Black, and Royal Emerald Green
+    const colorGold = new THREE.Color("hsl(43, 85%, 38%)"); // Rich brand gold
+    const colorBlack = new THREE.Color("hsl(0, 0%, 14%)"); // Deep charcoal ink
+    const colorEmerald = new THREE.Color("hsl(164, 76%, 26%)"); // Royal forest emerald
 
     let pIdx = 0;
     let cIdx = 0;
@@ -95,10 +95,20 @@ export default function DottedSurface({
         if (vertexColors) {
           const ratioX = ix / (AMOUNTX - 1);
           const ratioY = iy / (AMOUNTY - 1);
-          const mixedColor = colorA.clone().lerp(colorB, ratioY).lerp(colorC, (ratioX - 0.5) * 0.5);
-          colors[cIdx] = mixedColor.r;
-          colors[cIdx + 1] = mixedColor.g;
-          colors[cIdx + 2] = mixedColor.b;
+          // Harmonic tri-color wave distribution across the particle grid
+          const waveFactor = (Math.sin(ix * 0.28) + Math.cos(iy * 0.32) + 2) / 4;
+          let pointColor: THREE.Color;
+          if (waveFactor < 0.36) {
+            pointColor = colorBlack.clone().lerp(colorEmerald, waveFactor / 0.36);
+          } else if (waveFactor < 0.72) {
+            pointColor = colorEmerald.clone().lerp(colorGold, (waveFactor - 0.36) / 0.36);
+          } else {
+            pointColor = colorGold.clone().lerp(colorBlack, (waveFactor - 0.72) / 0.28 * 0.6);
+          }
+
+          colors[cIdx] = pointColor.r;
+          colors[cIdx + 1] = pointColor.g;
+          colors[cIdx + 2] = pointColor.b;
         }
 
         pIdx += 3;
@@ -118,15 +128,15 @@ export default function DottedSurface({
       transparent: true,
       sizeAttenuation,
       vertexColors,
-      color: vertexColors ? 0xffffff : 0x8a6a1b,
+      color: vertexColors ? 0xffffff : 0x0c5e46,
       map: circleTexture || undefined,
       depthWrite: false,
       blending: THREE.NormalBlending,
     });
 
     const points = new THREE.Points(geometry, material);
-    // Push the entire particle wave down
-    points.position.set(0, -140, 0);
+    // Lower wave plane to position strictly below the lede paragraph
+    points.position.set(0, -210, 0);
     scene.add(points);
 
     const positionAttribute = geometry.attributes.position as THREE.BufferAttribute;
@@ -187,7 +197,7 @@ export default function DottedSurface({
     <div
       ref={containerRef}
       aria-hidden="true"
-      className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
+      className={`pointer-events-none absolute inset-0 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_48%,rgba(0,0,0,0.5)_58%,black_68%,black_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,transparent_48%,rgba(0,0,0,0.5)_58%,black_68%,black_100%)] ${className}`}
     />
   );
 }
