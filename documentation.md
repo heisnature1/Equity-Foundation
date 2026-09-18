@@ -120,3 +120,4 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
 - Updated `DottedSurface` to a tri-color particle blend (Brand Gold, Deep Ink Black, and Royal Emerald) and lowered the 3D plane (`y = -210`) with a smooth vertical fade mask (`mask-image: linear-gradient`) so particles start strictly below the lede paragraph ("...and public legal education.") and wave across the action buttons and lower hero viewport.
 - Replaced plain text focus area tags with interactive Lucide icon pills (`Scale` for Legal Aid, `Megaphone` for Advocacy, and `BookOpen` for Rights Education) linking directly to their respective sections with hover lift and micro-animations.
 - Updated the "Know your rights" CTA button to high-contrast black background with white text (`.button--dark`), full mobile responsiveness, and refreshed project documentation in `README.md`.
+- Added `Hero-Section.png` visual preview banner and Table of Contents to `README.md`.
