@@ -115,5 +115,6 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
 ## Build Phase Log
 
 - Refreshed the homepage hero to use a centered, editorial layout inspired by the supplied reference image while preserving the existing site navigation and legal-aid content.
-- Integrated `DottedSurface` (`@/components/ui/dotted-surface`) Three.js animated 3D particle wave background with custom size (10), opacity (0.92), sizeAttenuation (true), and warm golden/bronze brand vertex colors into the hero section.
-- Calibrated the 3D wave plane position downward (`y = -140`) to sit comfortably in the lower half of the hero viewport without crowding headline typography, while enhancing dot contrast and circle texture sharpness for crisp visibility against the light background.
+- Integrated `DottedSurface` (`@/components/ui/dotted-surface`) Three.js animated 3D particle wave background into the hero section.
+- Added Royal Forest Emerald (`hsl(164 74% 27%)`) as a third signature color alongside Gold and Ink/Black, highlighting "Rights" and "Justice" in the hero headline for immediate visual focal clarity.
+- Updated `DottedSurface` to a tri-color particle blend (Brand Gold, Deep Ink Black, and Royal Emerald) and lowered the 3D plane (`y = -210`) with a smooth vertical fade mask (`mask-image: linear-gradient`) so particles start strictly below the lede paragraph ("...and public legal education.") and wave across the action buttons and lower hero viewport.

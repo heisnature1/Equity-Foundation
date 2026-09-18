@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Scale, Megaphone, BookOpen } from "lucide-react";
 import DottedSurface from "@/components/ui/dotted-surface";
 import {
   getPublicSiteSettings,
@@ -135,7 +136,7 @@ export default async function Home() {
               </Link>
               <Link
                 href="/know-your-rights"
-                className="button button--secondary"
+                className="button button--dark"
               >
                 Know your rights
               </Link>
@@ -148,9 +149,18 @@ export default async function Home() {
             <span className="hero__proof-line" aria-hidden="true" />
           </div>
           <div className="hero__meta" aria-label="Foundation focus areas">
-            <span>Legal aid</span>
-            <span>Advocacy</span>
-            <span>Rights education</span>
+            <Link href="/legal-help" className="hero__meta-pill">
+              <Scale size={15} aria-hidden="true" />
+              <span>Legal Aid</span>
+            </Link>
+            <Link href="/advocacy" className="hero__meta-pill">
+              <Megaphone size={15} aria-hidden="true" />
+              <span>Advocacy</span>
+            </Link>
+            <Link href="/know-your-rights" className="hero__meta-pill">
+              <BookOpen size={15} aria-hidden="true" />
+              <span>Rights Education</span>
+            </Link>
           </div>
         </div>
       </section>
