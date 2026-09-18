@@ -409,28 +409,6 @@ main {
   border-bottom: 1px solid hsl(var(--brand-ink-h) / 0.08);
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(
-    hsl(var(--brand-ink-h) / 0.035) 1px,
-    transparent 1px
-  );
-  background-size: 28px 28px;
-  mask-image: radial-gradient(
-    ellipse at center,
-    black 40%,
-    transparent 80%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse at center,
-    black 40%,
-    transparent 80%
-  );
-}
-
 .hero__frame {
   position: relative;
   z-index: 1;

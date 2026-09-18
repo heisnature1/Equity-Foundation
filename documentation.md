@@ -14,6 +14,7 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
 - **Runtime & UI Library:** React 19.2.8 & React DOM 19.2.8
 - **Language:** TypeScript 5
 - **Styling:** CSS Custom Properties / HSL design token system + Tailwind CSS v4
+- **3D Graphics & Motion:** Three.js (`three` & `@types/three`) for the fluid animated dotted wave background in the hero section
 - **Icons:** Lucide Icons (`lucide-react` v1.47.0) exclusively — zero emojis throughout
 - **Typography:** Google Fonts loaded via `next/font/google`:
   - Display: `Libre_Baskerville` (Editorial Serif, weights 400 & 700)
@@ -114,4 +115,5 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
 ## Build Phase Log
 
 - Refreshed the homepage hero to use a centered, editorial layout inspired by the supplied reference image while preserving the existing site navigation and legal-aid content.
-- Updated homepage hero to full-bleed cover with a classy warm champagne & gold ambient gradient background, subtle dot mesh overlay, and calibrated vertical spacing so all content fits comfortably in the viewport without cutoffs.
+- Integrated `DottedSurface` (`@/components/ui/dotted-surface`) Three.js animated 3D particle wave background with custom size (10), opacity (0.92), sizeAttenuation (true), and warm golden/bronze brand vertex colors into the hero section.
+- Calibrated the 3D wave plane position downward (`y = -140`) to sit comfortably in the lower half of the hero viewport without crowding headline typography, while enhancing dot contrast and circle texture sharpness for crisp visibility against the light background.

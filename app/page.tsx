@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DottedSurface from "@/components/ui/dotted-surface";
 import {
   getPublicSiteSettings,
   getPublishedPageContent,
@@ -102,6 +103,12 @@ export default async function Home() {
   return (
     <>
       <section className="hero">
+        <DottedSurface
+          size={10}
+          opacity={0.92}
+          sizeAttenuation={true}
+          vertexColors={true}
+        />
         <div className="container hero__frame">
           <div className="hero__content">
             <p className="eyebrow">{heroEyebrow}</p>
