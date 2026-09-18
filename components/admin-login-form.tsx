@@ -39,15 +39,34 @@ export function AdminLoginForm() {
     <form className="form-shell" onSubmit={handleSubmit}>
       <label>
         Admin email
-        <input type="email" name="email" autoComplete="email" required />
+        <input
+          type="email"
+          name="email"
+          autoComplete="email"
+          required
+          aria-invalid={error ? "true" : undefined}
+        />
       </label>
       <label>
         Password
-        <input type="password" name="password" autoComplete="current-password" required />
+        <input
+          type="password"
+          name="password"
+          autoComplete="current-password"
+          required
+          aria-invalid={error ? "true" : undefined}
+        />
       </label>
       {error ? <p className="form-error" role="alert">{error}</p> : null}
       <button type="submit" className="button button--primary" disabled={isSubmitting}>
-        {isSubmitting ? "Signing in..." : "Sign in"}
+        {isSubmitting ? (
+          <>
+            <span className="button__spinner" aria-hidden="true" />
+            Signing in…
+          </>
+        ) : (
+          "Sign in"
+        )}
       </button>
     </form>
   );
