@@ -394,7 +394,7 @@ export default async function Home() {
                   className="button button--secondary jbi-btn--secondary"
                 >
                   <Download size={15} aria-hidden="true" />
-                  <span>Download PDF (4.2 MB)</span>
+                  <span>Download PDF</span>
                 </Link>
               </div>
 

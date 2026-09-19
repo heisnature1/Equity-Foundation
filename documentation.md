@@ -78,8 +78,17 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
     - Edition badge (`CURRENT EDITION · Q1 2026`) and page count (`38 Pages · PDF & Online`).
     - Title: *Justice Bridge Index — Q1: Rights Awareness Baseline*.
     - Abstract and 3-point key empirical findings with forest green checkmark icons.
-    - Action cluster: Primary `Read online ↗` button + Secondary `Download PDF (4.2 MB) ↓` button.
+    - Action cluster: Primary `Read online ↗` button + Secondary `Download PDF ↓` button.
     - Open access citation badge: `Open Access (CC BY 4.0) · Peer-Reviewed Civic Data`.
+- **`Justice Bridge Index Portal` (`app/justice-bridge-index/page.tsx` & `components/justice-bridge-portal.tsx`):**
+  - Institutional research and civic data portal designed to high-caliber think tank standards:
+  - **Hero & Empirical Benchmark Strip:** Breadcrumbs, gold beacon badge, Libre Baskerville header, 4 benchmark metrics (16 Regions, 4,200+ Citizens, Quarterly Releases, CC BY 4.0 License), quick section jump pills.
+  - **Featured Edition Dossier Showcase:** Elevated white dossier card with 4px gold accent border, edition badges, executive abstract, 3-point empirical findings with forest green checkmark icons, factual `Read online` & `Download PDF` actions, `Cite publication` modal trigger, and `Share` link copy button with toast feedback.
+  - **Side Research Governance Card:** Principal investigator details, empirical scope across all 16 regions, dual peer-review standards, and an academic data inquiry callout.
+  - **Interactive Report Viewer:** Tabbed on-page reader covering *Executive Summary*, *Survey Findings* (with comparative empirical dispute resolution data table), *Regional Indicators* across all 16 Ghanaian regions, and *Policy Remedies*.
+  - **Searchable & Filterable Publication Archive:** Search bar with live keyword filtering across titles/descriptions/focus areas, year filter pills (`All`, `2026`, `2025`), live result counter, reset filter actions, and structured empty state with reset trigger.
+  - **Methodology & Integrity Section:** 3-column breakdown covering Stratified National Sampling, Multidisciplinary Review, and Open Access Licensing standards.
+  - **Scholarly Citation Modal:** Multi-format citation generator (APA 7th, Harvard, BibTeX) with 1-click clipboard copy and accessible modal trap/backdrop dismiss.
 - **`SiteFooter` (`components/site-footer.tsx`):** Modern Graphy-inspired closing section featuring:
   - High-impact dark CTA card (`.footer-cta`) with radial light glow, crisp headline, and high-contrast pill action button.
   - Floating white card footer (`.footer-card`) on an off-white canvas (`#f6f7f9`) with soft shadow elevation.
