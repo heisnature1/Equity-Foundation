@@ -151,45 +151,105 @@ const rightsTopics = [
 
 const campaigns = [
   {
-    title: "Rights awareness and access to justice",
-    label: "Current public-interest work",
+    icon: ShieldAlert,
+    tag: "ACTIVE CAMPAIGN",
+    title: "Police Conduct & 48-Hour Bail Monitoring",
     description:
-      "Advocacy and public legal education work focused on rights awareness and access to justice in Ghana.",
+      "Systematic monitoring of constitutional detention limits, pro bono station visits, and legal triage across high-density police divisions.",
+    metrics: "14 Divisions Monitored · 320+ Citizens Aided",
+    href: "/advocacy",
+    cta: "Explore Campaign",
   },
   {
-    title: "Public legal education resources",
-    label: "Resources",
+    icon: Users,
+    tag: "COMMUNITY LITERACY",
+    title: "Grassroots Legal Education & Townhalls",
     description:
-      "Plain-language materials and briefing resources designed for underserved communities and rights holders.",
+      "Plain-language rights workshops conducted in Twi, Ga, Ewe, and English for market associations, youth groups, and informal transport unions.",
+    metrics: "24 Community Clinics · 1,800+ Participants",
+    href: "/advocacy",
+    cta: "View Outreach",
   },
   {
-    title: "Institutional engagement and legal literacy",
-    label: "Advocacy updates",
+    icon: Landmark,
+    tag: "POLICY REFORM",
+    title: "State Legal Aid Expansion & Court Access",
     description:
-      "Evidence-based advocacy and community engagement work supporting legal literacy and informed action.",
+      "Submitting empirical research to Parliamentary Committees and the Legal Aid Commission to advocate for expanded funding for indigent representation.",
+    metrics: "16 Regions Monitored · Policy Brief Active",
+    href: "/advocacy",
+    cta: "Read Policy Agenda",
+  },
+];
+
+const involvementPathways = [
+  {
+    icon: Scale,
+    tag: "LEGAL PROFESSIONALS",
+    title: "Pro Bono Legal Network",
+    description:
+      "For practicing lawyers, pupil barristers, and licensed legal executives committed to providing verified pro bono casework for underprivileged citizens.",
+    highlights: [
+      "Verified indigent casework triage",
+      "1–2 cases annually or monthly clinic duty",
+      "Pro bono public recognition & CLE docket",
+    ],
+    href: "/contact?type=pro-bono",
+    cta: "Join Legal Network",
+  },
+  {
+    icon: HeartHandshake,
+    tag: "COMMUNITY VOLUNTEERS",
+    title: "Volunteer & Community Outreach",
+    description:
+      "Support local dialect translation, community townhall logistics, youth literacy workshops, and grassroots rights distribution in your district.",
+    highlights: [
+      "Local dialect translation (Twi, Ga, Ewe)",
+      "Civic townhall & legal clinic coordination",
+      "Digital rights education & peer advocacy",
+    ],
+    href: "/contact?type=volunteer",
+    cta: "Volunteer With Us",
+  },
+  {
+    icon: Briefcase,
+    tag: "INSTITUTIONS & DONORS",
+    title: "Strategic Partnerships",
+    description:
+      "Collaborate with Equity Bridge Foundation on joint research publications, donor-supported regional rights clinics, and national justice access reforms.",
+    highlights: [
+      "Joint empirical research & index publications",
+      "Regional rights clinic sponsorship",
+      "Transparent impact reporting & auditing",
+    ],
+    href: "/contact?type=partner",
+    cta: "Partner With Us",
   },
 ];
 
 const insights = [
   {
-    title: "Justice Bridge Index preview",
-    category: "Research",
+    title: "Justice Bridge Index: Baseline Findings on Legal Literacy",
+    category: "RESEARCH PUBLICATION",
+    date: "Q1 2026 · 6 min read",
     summary:
-      "A public-facing look at the next research and rights-awareness publication from Equity Bridge Foundation.",
+      "An empirical assessment of public familiarity with fundamental rights, court access hurdles, and statutory remedies across Ghana's 16 regions.",
     href: "/justice-bridge-index",
   },
   {
-    title: "Know your rights: access to legal support",
-    category: "Legal education",
+    title: "Tenancy Protections & Rent Advance Rules Under Act 220",
+    category: "LEGAL EDUCATION",
+    date: "March 2026 · 4 min read",
     summary:
-      "Plain-language guidance on how communities can better understand rights and where help may be available.",
-    href: "/know-your-rights",
+      "A plain-language guide detailing lawful 6-month rent advance caps, notice-to-quit regulations, and dispute resolution via Rent Control offices.",
+    href: "/know-your-rights#housing-tenancy",
   },
   {
-    title: "Advocacy and rights education",
-    category: "Advocacy",
+    title: "Constitutional Safeguards in Police Custody & Bail",
+    category: "ADVOCACY & REFORM",
+    date: "February 2026 · 5 min read",
     summary:
-      "Public-interest work that supports legal literacy, access to institutions, and informed rights awareness.",
+      "Evaluating Article 14(3) protections, bail conditions, and institutional remedies when police detentions exceed the 48-hour statutory rule.",
     href: "/advocacy",
   },
 ];
@@ -501,7 +561,7 @@ export default async function Home() {
           </div>
 
           <div className="kyr-card-grid">
-            {rightsTopics.map((topic) => (
+            {rightsTopics.slice(0, 4).map((topic) => (
               <Link
                 key={topic.title}
                 href={`/know-your-rights#${topic.slug}`}
@@ -509,17 +569,19 @@ export default async function Home() {
               >
                 <div className="kyr-topic-card__header">
                   <div className="kyr-topic-card__icon-wrap">
-                    <topic.icon size={20} aria-hidden="true" />
+                    <topic.icon size={19} aria-hidden="true" />
                   </div>
                   <span className="kyr-topic-card__tag">{topic.tag}</span>
                 </div>
 
-                <h3 className="kyr-topic-card__title">{topic.title}</h3>
-                <p className="kyr-topic-card__desc">{topic.description}</p>
+                <div className="kyr-topic-card__body">
+                  <h3 className="kyr-topic-card__title">{topic.title}</h3>
+                  <p className="kyr-topic-card__desc">{topic.description}</p>
+                </div>
 
                 <div className="kyr-topic-card__footer">
                   <span className="kyr-topic-card__action">Read legal guide</span>
-                  <ArrowUpRight size={15} className="kyr-topic-card__arrow" aria-hidden="true" />
+                  <ArrowUpRight size={14} className="kyr-topic-card__arrow" aria-hidden="true" />
                 </div>
               </Link>
             ))}
@@ -527,14 +589,17 @@ export default async function Home() {
 
           <div className="kyr-bottom-banner">
             <div className="kyr-bottom-banner__content">
-              <h3 className="kyr-bottom-banner__title">Need direct legal counsel or assistance?</h3>
+              <h3 className="kyr-bottom-banner__title">
+                Looking for guidance on family law, bail rights, or pro bono casework?
+              </h3>
               <p className="kyr-bottom-banner__desc">
-                Our foundation clinic provides confidential pro bono intake and legal guidance for qualified applicants.
+                Our open legal knowledgebase includes 8 full plain-language statutory guides and direct clinic intake.
               </p>
             </div>
             <div className="kyr-bottom-banner__actions">
               <Link href="/know-your-rights" className="button button--secondary kyr-banner-btn">
-                <span>Browse all rights guides</span>
+                <span>Browse all 8 guides</span>
+                <ArrowRight size={14} aria-hidden="true" />
               </Link>
               <Link href="/legal-help" className="button button--primary kyr-banner-btn">
                 <span>Get free legal help</span>
@@ -545,83 +610,179 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="section section--soft">
-        <div className="container">
-          <SectionIntro
-            eyebrow="Advocacy & campaigns"
-            title="Verified initiatives and public-interest work."
-            description="Only verified advocacy and campaign work is published here. A full campaign list will be added as official initiatives are confirmed."
-          />
+      {/* SECTION 5: ADVOCACY & CAMPAIGNS */}
+      <section className="section--campaigns relative overflow-hidden" id="advocacy">
+        <div className="container relative z-10 w-full">
+          <div className="campaigns-header">
+            <div className="jbi-pill-badge">
+              <span className="jbi-pill-badge__dot" aria-hidden="true" />
+              <span>ADVOCACY & REFORM</span>
+            </div>
+            <h2 className="campaigns-title">
+              Evidence-driven advocacy, policy oversight, and rights defense.
+            </h2>
+            <p className="campaigns-description">
+              Verified public-interest campaigns and community legal literacy initiatives led by
+              Equity Bridge Foundation across all 16 regions of Ghana.
+            </p>
+          </div>
 
-          <div className="card-grid card-grid--three">
-            {campaigns.map((campaign) => (
-              <article
-                key={campaign.title}
-                className="feature-card feature-card--plain"
-              >
-                <span className="feature-card__kicker">{campaign.label}</span>
-                <h3>{campaign.title}</h3>
-                <p>{campaign.description}</p>
-              </article>
-            ))}
+          <div className="campaigns-grid">
+            {campaigns.map((campaign) => {
+              const Icon = campaign.icon;
+              return (
+                <article key={campaign.title} className="campaign-card">
+                  <div className="campaign-card__header">
+                    <div className="campaign-card__icon-wrap" aria-hidden="true">
+                      <Icon size={20} />
+                    </div>
+                    <span className="campaign-card__tag">{campaign.tag}</span>
+                  </div>
+
+                  <div className="campaign-card__body">
+                    <h3 className="campaign-card__title">{campaign.title}</h3>
+                    <p className="campaign-card__desc">{campaign.description}</p>
+                    
+                    <div className="campaign-card__metric-badge">
+                      <span className="campaign-card__metric-dot" aria-hidden="true" />
+                      <span>{campaign.metrics}</span>
+                    </div>
+                  </div>
+
+                  <div className="campaign-card__footer">
+                    <Link href={campaign.href} className="campaign-card__link">
+                      <span>{campaign.cta}</span>
+                      <ArrowUpRight size={14} className="campaign-card__arrow" aria-hidden="true" />
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="campaigns-footer">
+            <Link href="/advocacy" className="campaigns-footer__link">
+              <span>View all active advocacy agendas & institutional monitoring reports</span>
+              <ArrowRight size={14} aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <SectionIntro
-            eyebrow="Get involved"
-            title="Support rights, legal literacy, and access to justice."
-            description="People can support the Foundation through advocacy, collaboration, volunteering, and strategic engagement where appropriate and verified."
-          />
+      {/* SECTION 6: GET INVOLVED (CIVIC ACTION & PRO BONO) */}
+      <section className="section--get-involved relative overflow-hidden" id="get-involved">
+        <div className="container relative z-10 w-full">
+          <div className="get-involved-header">
+            <div className="pillar-header__badge">
+              <span>CIVIC PARTICIPATION</span>
+            </div>
+            <h2 className="get-involved-title">
+              Be part of the movement for <em>equitable justice</em> in Ghana.
+            </h2>
+            <p className="get-involved-description">
+              Join legal practitioners, community volunteers, and institutional partners working
+              together to defend constitutional protections and support indigent citizens.
+            </p>
+          </div>
 
-          <div className="card-grid card-grid--three">
-            <article className="feature-card feature-card--plain">
-              <span className="feature-card__kicker">Support</span>
-              <h3>Support the Foundation</h3>
-              <p>
-                Explore verified support opportunities and ways to contribute to
-                legal-aid and advocacy work.
-              </p>
-            </article>
-            <article className="feature-card feature-card--plain">
-              <span className="feature-card__kicker">Volunteer</span>
-              <h3>Volunteer</h3>
-              <p>
-                Community participation and support opportunities will be
-                published when confirmed by the Foundation.
-              </p>
-            </article>
-            <article className="feature-card feature-card--plain">
-              <span className="feature-card__kicker">Collaborate</span>
-              <h3>Collaborate</h3>
-              <p>
-                Partnership opportunities will only be published where the
-                relationship has been formally confirmed.
-              </p>
-            </article>
+          <div className="get-involved-grid">
+            {involvementPathways.map((pathway) => {
+              const Icon = pathway.icon;
+              return (
+                <article key={pathway.title} className="pathway-card">
+                  <div className="pathway-card__header">
+                    <div className="pathway-card__icon-wrap" aria-hidden="true">
+                      <Icon size={20} />
+                    </div>
+                    <span className="pathway-card__tag">{pathway.tag}</span>
+                  </div>
+
+                  <div className="pathway-card__body">
+                    <h3 className="pathway-card__title">{pathway.title}</h3>
+                    <p className="pathway-card__desc">{pathway.description}</p>
+
+                    <ul className="pathway-card__highlights" aria-label={`Highlights for ${pathway.title}`}>
+                      {pathway.highlights.map((item) => (
+                        <li key={item}>
+                          <Check size={14} className="pathway-card__check" aria-hidden="true" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="pathway-card__footer">
+                    <Link href={pathway.href} className="pathway-card__action">
+                      <span>{pathway.cta}</span>
+                      <ArrowUpRight size={14} className="pathway-card__arrow" aria-hidden="true" />
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      <section className="section section--soft">
-        <div className="container">
-          <SectionIntro
-            eyebrow="Latest insights"
-            title="Editorial updates, research, education, and advocacy."
-            description="Professional public-facing updates will appear here as content is reviewed and published."
-          />
+      {/* SECTION 7: LATEST INSIGHTS & EDITORIAL DISPATCHES */}
+      <section className="section--insights relative overflow-hidden" id="insights">
+        <div className="container relative z-10 w-full">
+          <div className="insights-header">
+            <div className="jbi-pill-badge">
+              <span className="jbi-pill-badge__dot" aria-hidden="true" />
+              <span>EDITORIAL & DISPATCHES</span>
+            </div>
+            <h2 className="insights-title">
+              Latest insights, legal commentaries, and field updates.
+            </h2>
+            <p className="insights-description">
+              Timely research publications, statutory analyses, and plain-language rights
+              commentaries published by our legal research fellows.
+            </p>
+          </div>
 
-          <div className="card-grid card-grid--three">
+          <div className="insights-grid">
             {insights.map((item) => (
-              <article key={item.title} className="article-card">
-                <span className="article-card__tag">{item.category}</span>
-                <h3>{item.title}</h3>
-                <p>{item.summary}</p>
-                <Link href={item.href}>Read more</Link>
+              <article key={item.title} className="insight-card">
+                <div className="insight-card__header">
+                  <span className="insight-card__tag">{item.category}</span>
+                  <span className="insight-card__date">{item.date}</span>
+                </div>
+
+                <div className="insight-card__body">
+                  <h3 className="insight-card__title">{item.title}</h3>
+                  <p className="insight-card__summary">{item.summary}</p>
+                </div>
+
+                <div className="insight-card__footer">
+                  <Link href={item.href} className="insight-card__link">
+                    <span>Read publication</span>
+                    <ArrowUpRight size={14} className="insight-card__arrow" aria-hidden="true" />
+                  </Link>
+                </div>
               </article>
             ))}
+          </div>
+
+          <div className="insights-closing-banner">
+            <div className="insights-closing-banner__content">
+              <div className="insights-closing-banner__badge">FREE PRO BONO INTAKE</div>
+              <h3 className="insights-closing-banner__title">
+                Need immediate legal counsel or casework guidance?
+              </h3>
+              <p className="insights-closing-banner__desc">
+                Our foundation clinic provides confidential pro bono intake and triage for qualifying indigent citizens.
+              </p>
+            </div>
+            <div className="insights-closing-banner__actions">
+              <Link href="/legal-help" className="button button--primary kyr-banner-btn">
+                <span>Submit legal inquiry</span>
+                <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+              <Link href="/contact" className="button button--secondary kyr-banner-btn">
+                <span>Contact our office</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

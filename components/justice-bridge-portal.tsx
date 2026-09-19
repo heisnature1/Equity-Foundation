@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import DottedSurface from "@/components/ui/dotted-surface";
 import {
   BookOpen,
   Download,
@@ -243,10 +244,6 @@ export function JusticeBridgePortal({ dbEditions }: Props) {
 
   return (
     <div className="jbi-portal">
-      {/* Background Atmosphere & Film Grain Layer */}
-      <div className="jbi-bg-atmosphere" aria-hidden="true" />
-      <div className="jbi-bg-grain" aria-hidden="true" />
-
       {/* Toast Notification */}
       {copiedNotification ? (
         <div className="jbi-toast" role="status" aria-live="polite">
@@ -255,9 +252,26 @@ export function JusticeBridgePortal({ dbEditions }: Props) {
         </div>
       ) : null}
 
-      {/* Hero Header */}
-      <section className="jbi-portal__hero">
-        <div className="container">
+      {/* Hero Header with Signature 3D Dotted Surface */}
+      <section className="jbi-portal__hero relative overflow-hidden">
+        {/* 3D Dot Matrix Ground Plane using Project Colors */}
+        <div className="jbi-hero__dots-layer" aria-hidden="true">
+          <DottedSurface
+            size={9}
+            opacity={0.85}
+            sizeAttenuation={true}
+            vertexColors={true}
+            waveAmplitude={11}
+            waveSpeed={0.018}
+            pointsY={-280}
+            cameraY={340}
+            cameraZ={690}
+            lookAtY={-150}
+            className="jbi-hero__dots-canvas"
+          />
+        </div>
+
+        <div className="container relative z-10">
           <nav className="jbi-breadcrumbs" aria-label="Breadcrumb">
             <ol>
               <li>
@@ -403,7 +417,7 @@ export function JusticeBridgePortal({ dbEditions }: Props) {
                   <a
                     href={latestEdition.pdf_path}
                     download
-                    className="button button--secondary jbi-btn--secondary"
+                    className="button button--dark jbi-btn--dark"
                   >
                     <Download size={16} aria-hidden="true" />
                     <span>Download PDF</span>
@@ -411,7 +425,7 @@ export function JusticeBridgePortal({ dbEditions }: Props) {
                 ) : (
                   <button
                     type="button"
-                    className="button button--secondary jbi-btn--secondary"
+                    className="button button--dark jbi-btn--dark"
                     onClick={() => {
                       alert("The official PDF edition is being processed for download and will be available shortly. You can read the complete publication in the Interactive Report Viewer below.");
                     }}
