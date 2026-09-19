@@ -80,8 +80,17 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
     - Abstract and 3-point key empirical findings with forest green checkmark icons.
     - Action cluster: Primary `Read online ↗` button + Secondary `Download PDF ↓` button.
     - Open access citation badge: `Open Access (CC BY 4.0) · Peer-Reviewed Civic Data`.
+- **`Know Your Rights Section` (`app/page.tsx`):** Redesigned high-impact legal education section powered by the homepage hero's 3D interactive `<DottedSurface />` canvas:
+  - **Atmospheric Background Canvas:** Dynamic Three.js particle wave canvas with warm multi-layer radial gradient backdrop matching the Hero section.
+  - **Category Pill Badge:** `KNOW YOUR RIGHTS` with pulsating gold beacon indicator.
+  - **8 Rich Interactive Topic Cards:** Upgraded from static text tags to structured, elevated glassmorphism cards (`background: rgba(255, 255, 255, 0.92)`):
+    - Dedicated Lucide icons (`ShieldAlert`, `HeartHandshake`, `Briefcase`, `HomeIcon`, `Users`, `Scale`, `HelpCircle`, `Landmark`).
+    - Statutory tags (Criminal Procedure, Protection & Safety, Labour Act 651, Rent Act 220, Family Law, State Aid, Directory, 1992 Constitution).
+    - Concise legal overview descriptions and interactive hover lifts with directional arrows (`↗`).
+  - **Legal Intake Bottom Banner:** Integrated horizontal CTA with direct links to browse all rights guides and initiate free legal clinic intake.
 - **`Justice Bridge Index Portal` (`app/justice-bridge-index/page.tsx` & `components/justice-bridge-portal.tsx`):**
   - Institutional research and civic data portal designed to high-caliber think tank standards:
+  - **Atmospheric Background & Grain:** Multi-stop oceanic sapphire gradient with an ethereal top horizon white-cyan light aura (`.jbi-bg-atmosphere`) and a tactile SVG fractal noise film-grain overlay (`.jbi-bg-grain`).
   - **Hero & Empirical Benchmark Strip:** Breadcrumbs, gold beacon badge, Libre Baskerville header, 4 benchmark metrics (16 Regions, 4,200+ Citizens, Quarterly Releases, CC BY 4.0 License), quick section jump pills.
   - **Featured Edition Dossier Showcase:** Elevated white dossier card with 4px gold accent border, edition badges, executive abstract, 3-point empirical findings with forest green checkmark icons, factual `Read online` & `Download PDF` actions, `Cite publication` modal trigger, and `Share` link copy button with toast feedback.
   - **Side Research Governance Card:** Principal investigator details, empirical scope across all 16 regions, dual peer-review standards, and an academic data inquiry callout.
@@ -162,3 +171,8 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
 - Integrated `BeamsBackground` (`@/components/ui/beams-background`) canvas animation behind the "Our Work" / "Our Core Pillars" section with shadcn structure, `cn()` utility, and `components.json`.
 - Redesigned the Core Pillars section with classy, simple, professional editorial typography (crisp white serif with italic accent, no garish yellow gradient), unified obsidian glass cards, warm champagne ambient lighting, and subtle brass icon badges.
 - Calibrated viewport fitting (`100svh`) with flex vertical centering so the entire section displays seamlessly within the viewport on laptop and desktop screens.
+- Redesigned `http://localhost:3000/justice-bridge-index` into a high-caliber think-tank research publication portal with multi-format citation modal, interactive report reader, searchable publication archive, and radiant sapphire backdrop with SVG fractal film grain.
+- Overhauled `http://localhost:3000/know-your-rights` (`components/know-your-rights-portal.tsx` & `app/know-your-rights/page.tsx`) with an interactive 3D `DottedSurface` canvas anchored below the header, instant search bar with live filtering, category tabs, and 8 comprehensive statutory legal guides (Arrest & Police Rights, Gender-Based Violence, Employment Rights, Housing & Tenancy, Family & Domestic Rights, Access to Legal Representation, Where to Seek Help, Constitutional Rights).
+- Refined `DottedSurface` 3D particle physics: organized the wave propagation forward along the depth axis (`iy`), leveled and lowered the camera and ground plane (`pointsY = -280`), and structured the color gradient so rows remain parallel, neat, and positioned strictly below typography and content.
+- Completely redesigned `http://localhost:3000/about` (`components/about-portal.tsx` & `app/about/page.tsx`) into an institutional profile with an organized 3D `DottedSurface` ground plane, 4 key operational benchmarks (100% Pro Bono, 16 Regions, 4,200+ Surveyed, Quarterly Index), Mission & Vision purpose cards, tripartite operational pillars, vulnerable community beneficiary breakdowns, and governance/transparency standards.
+- Styled the "Read Research Publications" action button on `/about` to high-contrast black background with pure white typography, matching the hero's secondary button design and elevating visual hierarchy.

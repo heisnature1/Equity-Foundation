@@ -243,6 +243,10 @@ export function JusticeBridgePortal({ dbEditions }: Props) {
 
   return (
     <div className="jbi-portal">
+      {/* Background Atmosphere & Film Grain Layer */}
+      <div className="jbi-bg-atmosphere" aria-hidden="true" />
+      <div className="jbi-bg-grain" aria-hidden="true" />
+
       {/* Toast Notification */}
       {copiedNotification ? (
         <div className="jbi-toast" role="status" aria-live="polite">

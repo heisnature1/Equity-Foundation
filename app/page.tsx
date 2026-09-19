@@ -8,6 +8,13 @@ import {
   Check,
   Download,
   FileText,
+  ShieldAlert,
+  HeartHandshake,
+  Briefcase,
+  Home as HomeIcon,
+  Users,
+  HelpCircle,
+  Landmark,
 } from "lucide-react";
 import DottedSurface from "@/components/ui/dotted-surface";
 import { BeamsBackground } from "@/components/ui/beams-background";
@@ -76,14 +83,70 @@ const pillars = [
 ];
 
 const rightsTopics = [
-  "Arrest & Police Rights",
-  "Gender-Based Violence",
-  "Employment Rights",
-  "Housing & Tenancy",
-  "Family & Domestic Rights",
-  "Access to Legal Representation",
-  "Where to Seek Help",
-  "Constitutional Rights",
+  {
+    title: "Arrest & Police Rights",
+    slug: "arrest-police-rights",
+    tag: "Criminal Procedure",
+    icon: ShieldAlert,
+    description:
+      "Detention time limits, right to legal representation, and constitutional bail procedures under Act 30.",
+  },
+  {
+    title: "Gender-Based Violence",
+    slug: "gender-based-violence",
+    tag: "Protection & Safety",
+    icon: HeartHandshake,
+    description:
+      "Statutory protections under the Domestic Violence Act (Act 732), court protection orders, and emergency aid.",
+  },
+  {
+    title: "Employment Rights",
+    slug: "employment-rights",
+    tag: "Labour Act 651",
+    icon: Briefcase,
+    description:
+      "Fair remuneration, lawful termination procedures, redundancy entitlements, and Labour Commission filings.",
+  },
+  {
+    title: "Housing & Tenancy",
+    slug: "housing-tenancy",
+    tag: "Rent Act 220",
+    icon: HomeIcon,
+    description:
+      "Lawful rent advance caps, notice-to-quit regulations, and dispute resolution via Rent Control offices.",
+  },
+  {
+    title: "Family & Domestic Rights",
+    slug: "family-domestic-rights",
+    tag: "Family Law",
+    icon: Users,
+    description:
+      "Custody arrangements, spousal maintenance, customary marriage validity, and PNDC Law 111 inheritance rules.",
+  },
+  {
+    title: "Access to Legal Representation",
+    slug: "legal-representation",
+    tag: "State Aid & Pro Bono",
+    icon: Scale,
+    description:
+      "Eligibility guidelines for state Legal Aid Commission counsel, civic paralegals, and foundation casework.",
+  },
+  {
+    title: "Where to Seek Help",
+    slug: "where-to-seek-help",
+    tag: "Institutional Directory",
+    icon: HelpCircle,
+    description:
+      "Verified contact points for CHRAJ ombudsmen, DOVVSU police units, Legal Aid clinics, and mediation desks.",
+  },
+  {
+    title: "Constitutional Rights",
+    slug: "constitutional-rights",
+    tag: "1992 Constitution",
+    icon: Landmark,
+    description:
+      "Chapter 5 fundamental freedoms, protection against discrimination, and invoking Supreme Court remedies.",
+  },
 ];
 
 const campaigns = [
@@ -172,6 +235,8 @@ export default async function Home() {
           opacity={0.92}
           sizeAttenuation={true}
           vertexColors={true}
+          waveAmplitude={14}
+          waveSpeed={0.02}
         />
         <div className="container hero__frame">
           <div className="hero__content">
@@ -408,20 +473,74 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <SectionIntro
-            eyebrow="Know your rights"
-            title="Plain-language legal information for everyday decisions."
-            description="These practical topic areas help the public understand basic rights and where they can begin to seek help or guidance."
+      <section className="section section--know-your-rights relative overflow-hidden" id="know-your-rights">
+        {/* Organized 3D dot grid anchored strictly below the content cards */}
+        <div className="kyr-dots-container" aria-hidden="true">
+          <DottedSurface
+            size={9}
+            opacity={0.82}
+            sizeAttenuation={true}
+            vertexColors={true}
+            waveAmplitude={10}
+            waveSpeed={0.018}
+            pointsY={-120}
+            className="kyr-dots-canvas"
           />
+        </div>
+        <div className="container relative z-10">
+          <div className="kyr-section-header">
+            <div className="jbi-pill-badge">
+              <span className="jbi-pill-badge__dot" aria-hidden="true" />
+              <span>KNOW YOUR RIGHTS</span>
+            </div>
+            <h2 className="kyr-section-title">Plain-language legal information for everyday decisions.</h2>
+            <p className="kyr-section-desc">
+              These practical topic areas help the public understand basic rights, statutory protections,
+              and where they can begin to seek immediate guidance across Ghana.
+            </p>
+          </div>
 
-          <div className="resource-grid">
+          <div className="kyr-card-grid">
             {rightsTopics.map((topic) => (
-              <div key={topic} className="tag-card">
-                {topic}
-              </div>
+              <Link
+                key={topic.title}
+                href={`/know-your-rights#${topic.slug}`}
+                className="kyr-topic-card"
+              >
+                <div className="kyr-topic-card__header">
+                  <div className="kyr-topic-card__icon-wrap">
+                    <topic.icon size={20} aria-hidden="true" />
+                  </div>
+                  <span className="kyr-topic-card__tag">{topic.tag}</span>
+                </div>
+
+                <h3 className="kyr-topic-card__title">{topic.title}</h3>
+                <p className="kyr-topic-card__desc">{topic.description}</p>
+
+                <div className="kyr-topic-card__footer">
+                  <span className="kyr-topic-card__action">Read legal guide</span>
+                  <ArrowUpRight size={15} className="kyr-topic-card__arrow" aria-hidden="true" />
+                </div>
+              </Link>
             ))}
+          </div>
+
+          <div className="kyr-bottom-banner">
+            <div className="kyr-bottom-banner__content">
+              <h3 className="kyr-bottom-banner__title">Need direct legal counsel or assistance?</h3>
+              <p className="kyr-bottom-banner__desc">
+                Our foundation clinic provides confidential pro bono intake and legal guidance for qualified applicants.
+              </p>
+            </div>
+            <div className="kyr-bottom-banner__actions">
+              <Link href="/know-your-rights" className="button button--secondary kyr-banner-btn">
+                <span>Browse all rights guides</span>
+              </Link>
+              <Link href="/legal-help" className="button button--primary kyr-banner-btn">
+                <span>Get free legal help</span>
+                <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
