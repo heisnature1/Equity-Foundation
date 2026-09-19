@@ -2,6 +2,8 @@
 
 An authoritative, modern, and accessible civic portal for **Equity Bridge Foundation** an independent human-rights and legal aid initiative dedicated to expanding access to justice for women and underserved communities across Ghana.
 
+![Equity Bridge Foundation Hero Section](./Hero-Section.png)
+
 ---
 
 ## Table of Contents
