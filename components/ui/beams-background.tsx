@@ -1,0 +1,236 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
+
+interface AnimatedGradientBackgroundProps {
+    className?: string;
+    children?: React.ReactNode;
+    intensity?: "subtle" | "medium" | "strong";
+}
+
+interface Beam {
+    x: number;
+    y: number;
+    width: number;
+    length: number;
+    angle: number;
+    speed: number;
+    opacity: number;
+    hue: number;
+    pulse: number;
+    pulseSpeed: number;
+}
+
+function createBeam(width: number, height: number): Beam {
+    const angle = -35 + Math.random() * 10;
+    return {
+        x: Math.random() * width * 1.5 - width * 0.25,
+        y: Math.random() * height * 1.5 - height * 0.25,
+        width: 70 + Math.random() * 90,
+        length: height * 2.5,
+        angle: angle,
+        speed: 0.4 + Math.random() * 0.5,
+        opacity: 0.22 + Math.random() * 0.12,
+        hue: 43 + Math.random() * 8,
+        pulse: Math.random() * Math.PI * 2,
+        pulseSpeed: 0.015 + Math.random() * 0.02,
+    };
+}
+
+export function BeamsBackground({
+    className,
+    children,
+    intensity = "medium",
+}: AnimatedGradientBackgroundProps) {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const beamsRef = useRef<Beam[]>([]);
+    const animationFrameRef = useRef<number>(0);
+    const MINIMUM_BEAMS = 20;
+
+    const opacityMap = {
+        subtle: 0.8,
+        medium: 1.0,
+        strong: 1.25,
+    };
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        const updateCanvasSize = () => {
+            const dpr = window.devicePixelRatio || 1;
+            const container = canvas.parentElement;
+            const width = container ? container.clientWidth : window.innerWidth;
+            const height = container ? container.clientHeight : window.innerHeight;
+
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            ctx.scale(dpr, dpr);
+
+            const totalBeams = MINIMUM_BEAMS * 1.5;
+            beamsRef.current = Array.from({ length: totalBeams }, () =>
+                createBeam(width, height)
+            );
+        };
+
+        updateCanvasSize();
+        window.addEventListener("resize", updateCanvasSize);
+
+        function resetBeam(beam: Beam, index: number, totalBeams: number) {
+            if (!canvas) return beam;
+            const container = canvas.parentElement;
+            const width = container ? container.clientWidth : window.innerWidth;
+            const height = container ? container.clientHeight : window.innerHeight;
+            
+            const column = index % 3;
+            const spacing = width / 3;
+
+            beam.y = height + 100;
+            beam.x =
+                column * spacing +
+                spacing / 2 +
+                (Math.random() - 0.5) * spacing * 0.5;
+            beam.width = 70 + Math.random() * 90;
+            beam.speed = 0.35 + Math.random() * 0.4;
+            beam.hue = 43 + (index * 8) / totalBeams;
+            beam.opacity = 0.22 + Math.random() * 0.12;
+            return beam;
+        }
+
+        function drawBeam(ctx: CanvasRenderingContext2D, beam: Beam) {
+            ctx.save();
+            ctx.translate(beam.x, beam.y);
+            ctx.rotate((beam.angle * Math.PI) / 180);
+
+            // Calculate pulsing opacity
+            const pulsingOpacity =
+                beam.opacity *
+                (0.85 + Math.sin(beam.pulse) * 0.15) *
+                opacityMap[intensity];
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
+
+            // Soft, ambient champagne radiance
+            gradient.addColorStop(0, `hsla(${beam.hue}, 52%, 65%, 0)`);
+            gradient.addColorStop(
+                0.12,
+                `hsla(${beam.hue}, 52%, 65%, ${pulsingOpacity * 0.4})`
+            );
+            gradient.addColorStop(
+                0.45,
+                `hsla(${beam.hue}, 52%, 65%, ${pulsingOpacity * 0.85})`
+            );
+            gradient.addColorStop(
+                0.65,
+                `hsla(${beam.hue}, 52%, 65%, ${pulsingOpacity * 0.85})`
+            );
+            gradient.addColorStop(
+                0.88,
+                `hsla(${beam.hue}, 52%, 65%, ${pulsingOpacity * 0.4})`
+            );
+            gradient.addColorStop(1, `hsla(${beam.hue}, 52%, 65%, 0)`);
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
+            ctx.restore();
+        }
+
+        function animate() {
+            if (!canvas || !ctx) return;
+            const container = canvas.parentElement;
+            const width = container ? container.clientWidth : window.innerWidth;
+            const height = container ? container.clientHeight : window.innerHeight;
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.filter = "blur(40px)";
+
+            const totalBeams = beamsRef.current.length;
+            beamsRef.current.forEach((beam, index) => {
+                beam.y -= beam.speed;
+                beam.pulse += beam.pulseSpeed;
+
+                // Reset beam when it goes off screen
+                if (beam.y + beam.length < -100) {
+                    resetBeam(beam, index, totalBeams);
+                }
+
+                drawBeam(ctx, beam);
+            });
+
+            animationFrameRef.current = requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        return () => {
+            window.removeEventListener("resize", updateCanvasSize);
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
+        };
+    }, [intensity]);
+
+    return (
+        <div
+            className={cn(
+                "relative min-h-[500px] w-full overflow-hidden bg-neutral-950",
+                className
+            )}
+        >
+            <canvas
+                ref={canvasRef}
+                className="absolute inset-0 pointer-events-none"
+                style={{ filter: "blur(15px)" }}
+            />
+
+            <motion.div
+                className="absolute inset-0 bg-neutral-950/5 pointer-events-none"
+                animate={{
+                    opacity: [0.05, 0.15, 0.05],
+                }}
+                transition={{
+                    duration: 10,
+                    ease: "easeInOut",
+                    repeat: Number.POSITIVE_INFINITY,
+                }}
+                style={{
+                    backdropFilter: "blur(50px)",
+                }}
+            />
+
+            {children ? (
+                <div className="relative z-10 w-full">{children}</div>
+            ) : (
+                <div className="relative z-10 flex h-screen w-full items-center justify-center">
+                    <div className="flex flex-col items-center justify-center gap-6 px-4 text-center">
+                        <motion.h1
+                            className="text-6xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tighter"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            Beams
+                            <br />
+                            Background
+                        </motion.h1>
+                        <motion.p
+                            className="text-lg md:text-2xl lg:text-3xl text-white/70 tracking-tighter"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            For your pleasure
+                        </motion.p>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}

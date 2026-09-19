@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Scale, Megaphone, BookOpen } from "lucide-react";
+import { Scale, Megaphone, BookOpen, ArrowUpRight, Check } from "lucide-react";
 import DottedSurface from "@/components/ui/dotted-surface";
+import { BeamsBackground } from "@/components/ui/beams-background";
 import {
   getPublicSiteSettings,
   getPublishedPageContent,
@@ -9,21 +10,58 @@ import {
 
 const pillars = [
   {
-    title: "Legal Aid",
-    description: "Helping underserved people navigate access to justice.",
-    href: "/legal-help",
-  },
-  {
-    title: "Advocacy",
+    index: "01",
+    theme: "emerald",
+    icon: Scale,
+    tag: "PRO BONO INTAKE",
+    title: "Legal Aid & Casework",
     description:
-      "Advancing awareness and action around rights and access to justice.",
-    href: "/advocacy",
+      "Direct legal assistance, triage, and pro bono casework for women, vulnerable families, and underprivileged citizens navigating complex justice barriers.",
+    highlights: [
+      "Free pro bono intake & legal triage",
+      "Women & domestic rights protection",
+      "Police conduct & tenancy dispute support",
+    ],
+    href: "/legal-help",
+    cta: "Get Free Legal Aid",
+    actionVerb: "Get",
+    actionTarget: "Free Legal Aid",
   },
   {
+    index: "02",
+    theme: "gold",
+    icon: Megaphone,
+    tag: "COMMUNITY ADVOCACY",
+    title: "Advocacy & Systemic Reform",
+    description:
+      "Strategic rights campaigns, policy reform monitoring, and evidence-driven public advocacy to protect constitutional protections in Ghana.",
+    highlights: [
+      "Public-interest litigation support",
+      "Institutional accountability monitoring",
+      "Grassroots community town halls",
+    ],
+    href: "/advocacy",
+    cta: "Explore Advocacy",
+    actionVerb: "Explore",
+    actionTarget: "Advocacy",
+  },
+  {
+    index: "03",
+    theme: "cyan",
+    icon: BookOpen,
+    tag: "LEGAL LITERACY",
     title: "Public Legal Education",
     description:
-      "Making important legal information understandable and accessible.",
+      "Demystifying Ghana's legal system through plain-language rights guides, localized civic workshops, and accessible informational toolkits.",
+    highlights: [
+      "Plain-language constitutional guides",
+      "Youth & community legal workshops",
+      "Open access digital rights handbooks",
+    ],
     href: "/know-your-rights",
+    cta: "Browse Rights Guides",
+    actionVerb: "Browse",
+    actionTarget: "Rights Guides",
   },
 ];
 
@@ -165,35 +203,82 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <SectionIntro
-            eyebrow="Our work"
-            title={
-              homeContent.missionTitle ||
-              "A practical response to access-to-justice barriers."
-            }
-            description={
-              homeContent.missionDescription ||
-              "Equity Bridge Foundation focuses on legal aid, advocacy, and public legal education as part of a broader effort to support rights awareness and access to remedies."
-            }
-          />
+      <section className="relative overflow-hidden" id="our-work">
+        <BeamsBackground
+          className="section--pillars section--dark-beams"
+          intensity="medium"
+        >
+          <div className="container relative z-10 w-full">
+            <div className="pillar-header">
+              <div className="pillar-header__badge">
+                <span>OUR CORE PILLARS</span>
+              </div>
+              <h2 className="pillar-header__title">
+                A practical response to <em>access-to-justice</em> barriers.
+              </h2>
+              <p className="pillar-header__description">
+                Equity Bridge Foundation focuses on legal aid, advocacy, and public legal
+                education as part of a structured civic effort to defend rights and ensure equal
+                access across Ghana.
+              </p>
+            </div>
 
-          <div className="card-grid card-grid--three">
-            {pillars.map((pillar) => (
-              <Link
-                key={pillar.title}
-                href={pillar.href}
-                className="feature-card"
-              >
-                <span className="feature-card__kicker">{pillar.title}</span>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.description}</p>
-                <span className="feature-card__link">Learn more</span>
-              </Link>
-            ))}
+            <div className="pillar-grid">
+              {pillars.map((pillar) => {
+                const Icon = pillar.icon;
+                return (
+                  <article
+                    key={pillar.index}
+                    className="pillar-card"
+                  >
+                    <div className="pillar-card__header">
+                      <div
+                        className="pillar-card__icon-badge"
+                        aria-hidden="true"
+                      >
+                        <Icon size={20} />
+                      </div>
+                      <span className="pillar-card__index">{pillar.index}</span>
+                    </div>
+
+                    <div className="pillar-card__body">
+                      <span className="pillar-card__tag">{pillar.tag}</span>
+                      <h3 className="pillar-card__title">{pillar.title}</h3>
+                      <p className="pillar-card__description">{pillar.description}</p>
+
+                      <ul
+                        className="pillar-card__highlights"
+                        aria-label={`Key focus areas for ${pillar.title}`}
+                      >
+                        {pillar.highlights.map((highlight) => (
+                          <li key={highlight}>
+                            <Check
+                              size={14}
+                              className="pillar-card__check-icon"
+                              aria-hidden="true"
+                            />
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pillar-card__footer">
+                      <Link href={pillar.href} className="pillar-card__action">
+                        <span>{pillar.cta}</span>
+                        <ArrowUpRight
+                          size={15}
+                          className="pillar-card__action-icon"
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </BeamsBackground>
       </section>
 
       <section className="section section--soft">
@@ -337,29 +422,6 @@ export default async function Home() {
                 <Link href={item.href}>Read more</Link>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <div className="cta-banner">
-            <div>
-              <p className="eyebrow">Need help understanding your rights?</p>
-              <h2 className="section-title section-title--compact">
-                Start a Legal Help Request
-              </h2>
-            </div>
-            <p className="cta-banner__text">
-              The online legal-aid request form is for intake and triage only
-              and does not guarantee representation or immediate legal
-              assistance.
-            </p>
-            <div className="cta-banner__actions">
-              <Link href="/legal-help" className="button button--primary">
-                Start a Legal Help Request
-              </Link>
-            </div>
           </div>
         </div>
       </section>

@@ -1,70 +1,233 @@
 import Link from "next/link";
 import { BrandMark } from "@/components/brand-mark";
 
-const footerLinks = {
-  explore: [
-    ["/about", "About"],
-    ["/justice-bridge-index", "Justice Bridge Index"],
-    ["/know-your-rights", "Know Your Rights"],
-    ["/advocacy", "Advocacy"],
-    ["/resources", "Resources"],
-    ["/support", "Support Our Work"],
-    ["/contact", "Contact"],
-  ],
-  legal: [
-    ["/privacy-policy", "Privacy Policy"],
-    ["/terms-of-use", "Terms of Use"],
-    ["/legal-aid-disclaimer", "Legal Aid Disclaimer"],
-    ["/accessibility-statement", "Accessibility Statement"],
-  ],
-};
-
-export function SiteFooter() {
+export function SiteFooter({ showCta = true }: { showCta?: boolean }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer">
-      <div className="container grid gap-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr]">
-        <div>
-          <BrandMark />
-          <p className="mt-5 max-w-sm text-base leading-7 text-[color:var(--muted)]">
-            Equity Bridge Foundation works to close the access-to-justice gap for women and underprivileged communities in Ghana through legal aid, advocacy, and public legal education.
-          </p>
+    <div className="site-footer-root">
+      {/* 1. Dark CTA Banner (Matches reference top section) */}
+      {showCta ? (
+        <section className="footer-cta" aria-labelledby="footer-cta-title">
+          <div className="container">
+            <div className="footer-cta__card">
+              <div className="footer-cta__glow" aria-hidden="true" />
+              <div className="footer-cta__content">
+                <h2 id="footer-cta-title" className="footer-cta__title">
+                  Ready to stand for justice?
+                </h2>
+                <p className="footer-cta__description">
+                  Join thousands of citizens, community advocates, and legal professionals
+                  defending constitutional rights and accessing free legal aid across Ghana.
+                </p>
+                <div className="footer-cta__action">
+                  <Link href="/legal-help" className="footer-cta__button">
+                    Start for free
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* 2. Floating Card Footer on Off-White Canvas with Brand Watermark */}
+      <footer className="footer-canvas">
+        {/* Subtle Giant Brand Watermark Text behind the card */}
+        <div className="footer-watermark" aria-hidden="true">
+          Equity Bridge
         </div>
 
-        <div>
-          <h3 className="footer-heading">Explore</h3>
-          <ul className="footer-list">
-            {footerLinks.explore.map(([href, label]) => (
-              <li key={href}><Link href={href}>{label}</Link></li>
-            ))}
-          </ul>
-        </div>
+        <div className="container footer-card-container">
+          <div className="footer-card">
+            {/* Top Grid: Brand Column + 3 Navigation Columns */}
+            <div className="footer-card__top">
+              {/* Brand & Mission Column */}
+              <div className="footer-card__brand">
+                <Link
+                  href="/"
+                  className="footer-card__logo-link"
+                  aria-label="Equity Bridge Foundation Home"
+                >
+                  <BrandMark />
+                </Link>
 
-        <div>
-          <h3 className="footer-heading">Legal</h3>
-          <ul className="footer-list">
-            {footerLinks.legal.map(([href, label]) => (
-              <li key={href}><Link href={href}>{label}</Link></li>
-            ))}
-          </ul>
-        </div>
+                <p className="footer-card__bio">
+                  Equity Bridge Foundation works to close the access-to-justice gap
+                  for women and underprivileged communities in Ghana through legal
+                  aid, advocacy, and public legal education.
+                </p>
 
-        <div>
-          <h3 className="footer-heading">Connect</h3>
-          <ul className="footer-list">
-            <li><a href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a></li>
-            <li><a href="https://wa.me/0000000000">WhatsApp</a></li>
-            <li><a href="mailto:hello@equitybridgefoundation.org">Email</a></li>
-            <li><a href="tel:+233000000000">Phone</a></li>
-          </ul>
-        </div>
-      </div>
+                {/* Social Media Links (Standardized SVG icons matching reference) */}
+                <div className="footer-socials" aria-label="Official social media links">
+                  <a
+                    href="https://x.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-link"
+                    aria-label="Follow Equity Bridge Foundation on X (Twitter)"
+                  >
+                    <svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-link"
+                    aria-label="Follow Equity Bridge Foundation on Instagram"
+                  >
+                    <svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-link"
+                    aria-label="Connect with Equity Bridge Foundation on LinkedIn"
+                  >
+                    <svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-link"
+                    aria-label="Equity Bridge Foundation Open Source on GitHub"
+                  >
+                    <svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
 
-      <div className="container site-footer__bottom">
-        <p>© {year} Equity Bridge Foundation</p>
-        <p className="text-[0.8rem] text-[color:var(--muted)]">[CONTACT DETAILS TO BE VERIFIED]</p>
-      </div>
-    </footer>
+              {/* Navigation Columns (3 columns matching Product / Resources / Company) */}
+              <div className="footer-card__nav">
+                {/* Column 1: Programs */}
+                <div className="footer-nav-col">
+                  <h3 className="footer-nav-heading">Programs</h3>
+                  <ul className="footer-nav-list">
+                    <li>
+                      <Link href="/justice-bridge-index">Justice Bridge Index</Link>
+                    </li>
+                    <li>
+                      <Link href="/know-your-rights">Know Your Rights</Link>
+                    </li>
+                    <li>
+                      <Link href="/legal-help">Legal Aid Clinic</Link>
+                    </li>
+                    <li>
+                      <Link href="/advocacy">Advocacy & Campaigns</Link>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Column 2: Resources */}
+                <div className="footer-nav-col">
+                  <h3 className="footer-nav-heading">Resources</h3>
+                  <ul className="footer-nav-list">
+                    <li>
+                      <Link href="/resources">Legal Guides & Toolkits</Link>
+                    </li>
+                    <li>
+                      <Link href="/resources#reports">Research & Reports</Link>
+                    </li>
+                    <li>
+                      <Link href="/resources#education">Public Education</Link>
+                    </li>
+                    <li>
+                      <Link href="/support">Support Our Work</Link>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Column 3: Organization */}
+                <div className="footer-nav-col">
+                  <h3 className="footer-nav-heading">Organization</h3>
+                  <ul className="footer-nav-list">
+                    <li>
+                      <Link href="/about">About Us</Link>
+                    </li>
+                    <li>
+                      <Link href="/about#team">Leadership & Team</Link>
+                    </li>
+                    <li>
+                      <Link href="/contact">Contact</Link>
+                    </li>
+                    <li>
+                      <Link href="/support#partners">Partners</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <hr className="footer-card__divider" />
+
+            {/* Bottom Row: Copyright + Legal Links */}
+            <div className="footer-card__bottom">
+              <p className="footer-copyright">
+                © {year} Equity Bridge Foundation. All rights reserved.
+              </p>
+              <div className="footer-legal-links">
+                <Link href="/privacy-policy" className="footer-legal-link">
+                  Privacy Policy
+                </Link>
+                <Link href="/terms-of-use" className="footer-legal-link">
+                  Terms of Service
+                </Link>
+                <Link href="/legal-aid-disclaimer" className="footer-legal-link">
+                  Legal Disclaimer
+                </Link>
+                <Link href="/accessibility-statement" className="footer-legal-link">
+                  Accessibility
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
