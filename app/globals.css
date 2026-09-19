@@ -49,6 +49,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -83,6 +89,15 @@ select {
 .site-shell {
   min-height: 100vh;
   background: var(--bg);
+}
+
+.section--jbi,
+.section--know-your-rights,
+.section--campaigns,
+.section--get-involved,
+.section--insights {
+  content-visibility: auto;
+  contain-intrinsic-size: 720px;
 }
 
 .admin-shell {
@@ -405,11 +420,7 @@ main {
       hsl(48 70% 93% / 0.55) 0%,
       transparent 45%
     ),
-    linear-gradient(
-      180deg,
-      hsl(42 35% 98%) 0%,
-      hsl(42 22% 94%) 100%
-    );
+    linear-gradient(180deg, hsl(42 35% 98%) 0%, hsl(42 22% 94%) 100%);
   border-bottom: 1px solid hsl(var(--brand-ink-h) / 0.08);
 }
 
@@ -439,7 +450,9 @@ main {
 .hero__highlight {
   color: var(--brand-emerald);
   display: inline-block;
-  transition: color 0.25s ease, transform 0.25s ease;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
 .hero__highlight:hover {
@@ -724,7 +737,9 @@ h3 {
 
 .hero__meta-pill svg {
   color: var(--brand-gold-deep);
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .hero__meta-pill:hover,
@@ -968,7 +983,9 @@ h3 {
   background: rgba(212, 175, 55, 0.08);
   border: 1px solid rgba(212, 175, 55, 0.22);
   color: #d4af37;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .pillar-card:hover .pillar-card__icon-badge {
@@ -1087,7 +1104,9 @@ h3 {
 }
 
 .pillar-card__action-icon {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.2s ease;
   color: var(--brand-gold, #d4af37);
 }
 
@@ -1596,11 +1615,7 @@ h3 {
       hsl(48 70% 93% / 0.55) 0%,
       transparent 45%
     ),
-    linear-gradient(
-      180deg,
-      hsl(42 35% 98%) 0%,
-      hsl(42 22% 94%) 100%
-    );
+    linear-gradient(180deg, hsl(42 35% 98%) 0%, hsl(42 22% 94%) 100%);
   border-top: 1px solid hsl(var(--brand-ink-h) / 0.08);
   border-bottom: 1px solid hsl(var(--brand-ink-h) / 0.08);
 }
@@ -1617,8 +1632,20 @@ h3 {
 }
 
 .kyr-dots-canvas {
-  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.25) 25%, black 65%, black 100%) !important;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.25) 25%, black 65%, black 100%) !important;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 25%,
+    black 65%,
+    black 100%
+  ) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 25%,
+    black 65%,
+    black 100%
+  ) !important;
 }
 
 .kyr-section-header {
@@ -1632,7 +1659,7 @@ h3 {
 }
 
 .kyr-section-title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.75rem, 2.75vw, 2.4rem);
   font-weight: 700;
   line-height: 1.2;
@@ -1739,7 +1766,7 @@ h3 {
 }
 
 .kyr-topic-card__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1rem, 1.15vw, 1.125rem);
   font-weight: 700;
   color: #111827;
@@ -1800,7 +1827,7 @@ h3 {
 }
 
 .kyr-bottom-banner__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(0.95rem, 1.1vw, 1.05rem);
   font-weight: 700;
   color: #111827;
@@ -1845,7 +1872,11 @@ h3 {
   padding: clamp(2rem, 3.8vh, 3.25rem) 0;
   box-sizing: border-box;
   background:
-    radial-gradient(ellipse 65% 50% at 50% 0%, hsl(45 75% 94% / 0.55) 0%, transparent 70%),
+    radial-gradient(
+      ellipse 65% 50% at 50% 0%,
+      hsl(45 75% 94% / 0.55) 0%,
+      transparent 70%
+    ),
     linear-gradient(180deg, #fbfaf7 0%, #f5f0e4 100%);
   border-bottom: 1px solid rgba(17, 24, 39, 0.08);
 }
@@ -1861,7 +1892,7 @@ h3 {
 }
 
 .campaigns-title {
-  font-family: var(--font-display, 'Libre Baskerville', Georgia, serif);
+  font-family: var(--font-display, "Libre Baskerville", Georgia, serif);
   font-size: clamp(1.85rem, 2.9vw, 2.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -1954,7 +1985,7 @@ h3 {
 }
 
 .campaign-card__title {
-  font-family: var(--font-display, 'Libre Baskerville', Georgia, serif);
+  font-family: var(--font-display, "Libre Baskerville", Georgia, serif);
   font-size: clamp(1.1rem, 1.3vw, 1.25rem);
   font-weight: 700;
   color: #111827;
@@ -2005,7 +2036,9 @@ h3 {
   font-weight: 700;
   color: #0f4d4c;
   text-decoration: none;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .campaign-card__arrow {
@@ -2035,7 +2068,9 @@ h3 {
   text-decoration: none;
   padding: 0.4rem 0.85rem;
   border-radius: 9999px;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .campaigns-footer__link:hover {
@@ -2069,7 +2104,11 @@ h3 {
   width: 500px;
   height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.06) 0%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -2081,7 +2120,11 @@ h3 {
   width: 450px;
   height: 450px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(13, 92, 58, 0.08) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(13, 92, 58, 0.08) 0%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -2169,7 +2212,9 @@ h3 {
   background: rgba(212, 175, 55, 0.08);
   border: 1px solid rgba(212, 175, 55, 0.22);
   color: #d4af37;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .pathway-card:hover .pathway-card__icon-wrap {
@@ -2261,7 +2306,9 @@ h3 {
 
 .pathway-card__arrow {
   color: #d4af37;
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .pathway-card__action:hover {
@@ -2291,7 +2338,11 @@ h3 {
   padding: clamp(2rem, 3.5vh, 3rem) 0;
   box-sizing: border-box;
   background:
-    radial-gradient(circle at 15% 15%, hsl(45 75% 94% / 0.5) 0%, transparent 55%),
+    radial-gradient(
+      circle at 15% 15%,
+      hsl(45 75% 94% / 0.5) 0%,
+      transparent 55%
+    ),
     linear-gradient(180deg, #fbfaf7 0%, #f4eee2 100%);
   border-bottom: 1px solid rgba(17, 24, 39, 0.08);
 }
@@ -2805,7 +2856,9 @@ h3 {
 .footer-cta__button:hover {
   background: #f1f3f5;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 8px 24px rgba(255, 255, 255, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .footer-cta__button:active {
@@ -2969,7 +3022,9 @@ h3 {
   color: #64748b;
   line-height: 1.4;
   text-decoration: none;
-  transition: color 0.16s ease, transform 0.16s ease;
+  transition:
+    color 0.16s ease,
+    transform 0.16s ease;
   min-height: 24px;
 }
 
@@ -3104,6 +3159,19 @@ h3 {
 }
 
 @media (max-width: 640px) {
+  .site-header__inner {
+    min-height: 72px;
+  }
+
+  .hero {
+    min-height: calc(100svh - 72px);
+    padding-block: 2rem;
+  }
+
+  .container {
+    width: min(100% - 1.5rem, 1180px);
+  }
+
   .hero__actions {
     flex-direction: column;
     align-items: stretch;
@@ -3222,11 +3290,7 @@ h3 {
       hsl(48 70% 92% / 0.5) 0%,
       transparent 50%
     ),
-    linear-gradient(
-      180deg,
-      hsl(42 35% 98%) 0%,
-      hsl(42 24% 95%) 100%
-    );
+    linear-gradient(180deg, hsl(42 35% 98%) 0%, hsl(42 24% 95%) 100%);
   border-bottom: 1px solid rgba(17, 24, 39, 0.08);
   padding-top: clamp(2.5rem, 5vw, 4rem);
   padding-bottom: clamp(3.5rem, 7vw, 5.5rem);
@@ -3319,7 +3383,7 @@ h3 {
 }
 
 .jbi-hero__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(2.25rem, 4.5vw, 3.75rem);
   font-weight: 700;
   line-height: 1.15;
@@ -3359,7 +3423,7 @@ h3 {
 }
 
 .jbi-stat-item__number {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.4rem, 2.2vw, 1.85rem);
   font-weight: 700;
   color: hsl(164, 76%, 28%);
@@ -3457,7 +3521,7 @@ h3 {
 }
 
 .jbi-section__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.85rem, 3.2vw, 2.6rem);
   font-weight: 700;
   color: #0f172a;
@@ -3535,7 +3599,7 @@ h3 {
 }
 
 .jbi-dossier__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.35rem, 2.2vw, 1.85rem);
   font-weight: 400;
   color: #111827;
@@ -3865,7 +3929,7 @@ h3 {
 }
 
 .jbi-reader-panel__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.25rem, 2vw, 1.65rem);
   font-weight: 400;
   color: #111827;
@@ -3903,7 +3967,7 @@ h3 {
 }
 
 .jbi-callout-card__stat {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 2rem;
   font-weight: 700;
   color: hsl(164, 74%, 25%);
@@ -4019,7 +4083,7 @@ h3 {
 }
 
 .jbi-policy-item__number {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--brand-gold, #d4af37);
@@ -4222,7 +4286,7 @@ h3 {
 }
 
 .jbi-archive-card__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.15rem;
   font-weight: 400;
   color: #111827;
@@ -4302,7 +4366,7 @@ h3 {
 }
 
 .jbi-empty-state__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.25rem;
   font-weight: 400;
   color: #111827;
@@ -4352,7 +4416,7 @@ h3 {
 }
 
 .jbi-methodology-card__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.15rem;
   font-weight: 400;
   color: #111827;
@@ -4382,8 +4446,12 @@ h3 {
 }
 
 @keyframes jbiFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .jbi-modal-card {
@@ -4427,7 +4495,7 @@ h3 {
 }
 
 .jbi-modal-title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.2rem;
   font-weight: 400;
   color: #111827;
@@ -4545,11 +4613,7 @@ h3 {
       hsl(48 70% 92% / 0.5) 0%,
       transparent 50%
     ),
-    linear-gradient(
-      180deg,
-      hsl(42 35% 98%) 0%,
-      hsl(42 24% 95%) 100%
-    );
+    linear-gradient(180deg, hsl(42 35% 98%) 0%, hsl(42 24% 95%) 100%);
   border-bottom: 1px solid rgba(17, 24, 39, 0.08);
   padding: clamp(3.5rem, 7vw, 5.5rem) 0 clamp(4rem, 8vw, 6rem);
 }
@@ -4619,12 +4683,19 @@ h3 {
 }
 
 @keyframes kyr-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.8); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
 }
 
 .kyr-hero__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(2.2rem, 4.5vw, 3.5rem);
   font-weight: 700;
   line-height: 1.18;
@@ -4718,7 +4789,9 @@ h3 {
   box-shadow:
     0 10px 25px -5px rgba(17, 24, 39, 0.06),
     0 2px 6px rgba(17, 24, 39, 0.02);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .kyr-search-input-wrap:focus-within {
@@ -4758,7 +4831,9 @@ h3 {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
 }
 
 .kyr-search-clear:hover {
@@ -4937,7 +5012,7 @@ h3 {
 }
 
 .kyr-guide-card__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.28;
@@ -5043,7 +5118,7 @@ h3 {
 }
 
 .kyr-empty-title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.25rem;
   color: #0f172a;
   margin: 0 0 0.5rem;
@@ -5104,7 +5179,7 @@ h3 {
 }
 
 .kyr-bottom-cta__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.15rem, 2vw, 1.45rem);
   font-weight: 700;
   color: #0f172a;
@@ -5153,8 +5228,12 @@ h3 {
 }
 
 @keyframes kyr-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .kyr-modal {
@@ -5173,8 +5252,14 @@ h3 {
 }
 
 @keyframes kyr-scale-in {
-  from { opacity: 0; transform: scale(0.96) translateY(12px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .kyr-modal__header {
@@ -5222,7 +5307,9 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .kyr-modal__close-btn:hover {
@@ -5237,7 +5324,7 @@ h3 {
 }
 
 .kyr-modal__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.5rem, 2.5vw, 2rem);
   font-weight: 700;
   color: #0f172a;
@@ -5475,11 +5562,7 @@ h3 {
       hsl(48 70% 92% / 0.5) 0%,
       transparent 50%
     ),
-    linear-gradient(
-      180deg,
-      hsl(42 35% 98%) 0%,
-      hsl(42 24% 95%) 100%
-    );
+    linear-gradient(180deg, hsl(42 35% 98%) 0%, hsl(42 24% 95%) 100%);
   border-bottom: 1px solid rgba(17, 24, 39, 0.08);
   padding: clamp(3.5rem, 7vw, 5.5rem) 0 clamp(4rem, 8vw, 6rem);
 }
@@ -5549,7 +5632,7 @@ h3 {
 }
 
 .about-hero__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(2.2rem, 4.5vw, 3.5rem);
   font-weight: 700;
   line-height: 1.18;
@@ -5591,7 +5674,7 @@ h3 {
 }
 
 .about-hero__metric-num {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: #0f172a;
@@ -5695,7 +5778,7 @@ h3 {
 }
 
 .about-section-title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.85rem, 3.2vw, 2.6rem);
   font-weight: 700;
   line-height: 1.22;
@@ -5760,7 +5843,7 @@ h3 {
 }
 
 .about-purpose-card__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: #0f172a;
@@ -5819,7 +5902,7 @@ h3 {
 
 .about-vision-metric__val {
   display: block;
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.15rem;
   font-weight: 700;
   color: hsl(164, 76%, 28%);
@@ -5901,7 +5984,7 @@ h3 {
 }
 
 .about-pillar-card__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: #0f172a;
@@ -6031,7 +6114,7 @@ h3 {
 }
 
 .about-governance-box__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: #0f172a;
@@ -6132,7 +6215,7 @@ h3 {
 }
 
 .about-cta-card__title {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.5rem, 2.5vw, 2.15rem);
   font-weight: 700;
   color: #ffffff;
@@ -6196,11 +6279,7 @@ h3 {
       hsl(48 70% 93% / 0.55) 0%,
       transparent 45%
     ),
-    linear-gradient(
-      180deg,
-      hsl(42 35% 98%) 0%,
-      hsl(42 22% 94%) 100%
-    );
+    linear-gradient(180deg, hsl(42 35% 98%) 0%, hsl(42 22% 94%) 100%);
   border-bottom: 1px solid hsl(var(--brand-ink-h) / 0.08);
 }
 
@@ -6216,8 +6295,20 @@ h3 {
 }
 
 .portal-dots-canvas {
-  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.25) 25%, black 65%, black 100%) !important;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.25) 25%, black 65%, black 100%) !important;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 25%,
+    black 65%,
+    black 100%
+  ) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 25%,
+    black 65%,
+    black 100%
+  ) !important;
 }
 
 /* ==========================================================================
@@ -6239,11 +6330,7 @@ h3 {
       hsl(45 80% 95% / 0.8) 0%,
       transparent 70%
     ),
-    linear-gradient(
-      180deg,
-      hsl(42 35% 98%) 0%,
-      hsl(42 20% 95%) 100%
-    );
+    linear-gradient(180deg, hsl(42 35% 98%) 0%, hsl(42 20% 95%) 100%);
   border-bottom: 1px solid hsl(var(--brand-ink-h) / 0.08);
 }
 
@@ -6508,7 +6595,9 @@ h3 {
   color: #0f172a;
   font-size: 0.8125rem;
   font-family: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   box-sizing: border-box;
 }
 
@@ -6737,7 +6826,10 @@ h3 {
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 12px 30px -8px rgba(17, 24, 39, 0.05);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
 }
 
 .advocacy-card:hover {
@@ -6846,7 +6938,9 @@ h3 {
   color: #0f4d4c;
   cursor: pointer;
   padding: 0;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .advocacy-card__trigger:hover {
@@ -7164,7 +7258,10 @@ h3 {
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 12px 30px -8px rgba(17, 24, 39, 0.05);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
 }
 
 .resource-card:hover {
@@ -7331,7 +7428,11 @@ h3 {
   width: 500px;
   height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.08) 0%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -7343,7 +7444,11 @@ h3 {
   width: 450px;
   height: 450px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(13, 92, 58, 0.12) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(13, 92, 58, 0.12) 0%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -7401,7 +7506,10 @@ h3 {
   border: 1px solid rgba(255, 255, 255, 0.09);
   padding: clamp(1.2rem, 2vh, 1.65rem);
   box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.55);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
 }
 
 .support-card:hover {
@@ -7841,5 +7949,3 @@ h3 {
     transition: none !important;
   }
 }
-
-

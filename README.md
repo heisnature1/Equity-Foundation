@@ -2,8 +2,6 @@
 
 An authoritative, modern, and accessible civic portal for **Equity Bridge Foundation** an independent human-rights and legal aid initiative dedicated to expanding access to justice for women and underserved communities across Ghana.
 
-![Equity Bridge Foundation Hero Section](./Hero-Section.png)
-
 ---
 
 ## Table of Contents
@@ -17,6 +15,7 @@ An authoritative, modern, and accessible civic portal for **Equity Bridge Founda
   - [Installation](#installation)
   - [Running Locally](#running-locally)
   - [Building for Production](#building-for-production)
+- [Performance & Responsive Design](#performance--responsive-design)
 - [Security & Privacy (OWASP Compliance)](#security--privacy-owasp-compliance)
 - [License](#license)
 
@@ -25,6 +24,7 @@ An authoritative, modern, and accessible civic portal for **Equity Bridge Founda
 ## Overview
 
 Equity Bridge Foundation addresses structural access-to-justice challenges in Ghana through three primary pillars:
+
 1. **Legal Aid:** Pro bono intake and guidance for vulnerable community members.
 2. **Advocacy:** Evidence-based institutional engagement and public-interest advocacy.
 3. **Public Legal Education:** Plain-language constitutional education and rights guidance.
@@ -37,7 +37,7 @@ Equity Bridge Foundation addresses structural access-to-justice challenges in Gh
 - **Runtime Library:** [React 19](https://react.dev/)
 - **Language:** [TypeScript 5](https://www.typescriptlang.org/)
 - **Styling:** CSS Custom Properties, HSL design token architecture, and [Tailwind CSS v4](https://tailwindcss.com/)
-- **3D Motion & Shaders:** [Three.js](https://threejs.org/) for real-time procedural particle wave animations
+- **Visual Effects:** [Three.js](https://threejs.org/) and lightweight canvas effects, loaded only where needed
 - **Iconography:** [Lucide Icons](https://lucide.dev/) exclusively — zero informal emojis
 - **Typography:** Google Fonts (`Libre_Baskerville` for display serifs, `Manrope` for clean sans-serif body)
 - **Backend / CMS:** [Supabase](https://supabase.com/) with safe server-side fallbacks for continuous uptime
@@ -50,14 +50,20 @@ Equity Bridge Foundation addresses structural access-to-justice challenges in Gh
   - **Deep Ink Black** (`hsl(0, 0%, 7%)`) — Authoritative typographic clarity and contrast
   - **Heritage Gold** (`hsl(45, 62%, 53%)`) — Warm civic prestige, trust, and prominence
   - **Royal Forest Emerald** (`hsl(164, 74%, 27%)`) — High-contrast Pan-African jewel tone symbolizing justice, renewal, and vitality
-- **3D Dotted Surface Wave:**
-  - Procedural Three.js particle lattice displaced by dual crossing sine waves
-  - Tri-color particle harmonic distribution (Gold, Ink, and Emerald)
-  - Vertical fade-in mask ensuring dots start strictly beneath the hero lede to maintain total typographic legibility
+- **Motion:** Subtle canvas and WebGL backgrounds support the editorial civic design without blocking content or navigation.
 - **Mobile-First Responsiveness:**
   - Tested across mobile (375px), tablet (768px), laptop (1280px), and desktop (1920px) viewports
   - Fluid typography via CSS `clamp()`
-  - High-contrast touch targets meeting and exceeding WCAG 2.1 AA/AAA accessibility standards (minimum 48px height)
+  - High-contrast touch targets meeting WCAG 2.1 AA guidance (minimum 44px target size)
+
+## Performance & Responsive Design
+
+- Homepage visual effects are dynamically imported so the initial document can render before Three.js and canvas code is downloaded.
+- Three.js particle density is reduced on small screens, pixel ratio is capped, and animation work is throttled to about 30 frames per second.
+- Background animations pause their rendering when the tab is hidden and honor `prefers-reduced-motion`.
+- Below-the-fold homepage sections use browser content visibility to reduce initial layout and paint work.
+- Layout breakpoints cover mobile (<640px), tablet (640-979px), and desktop (980px+), with stacked cards, full-width actions, and compact navigation on small screens.
+- Validate the production bundle with `npm run build` and check mobile layouts at 375px and 768px before release.
 
 ---
 
@@ -91,6 +97,7 @@ Equity Bridge Foundation addresses structural access-to-justice challenges in Gh
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18.17 or higher
 - npm 9 or higher
 

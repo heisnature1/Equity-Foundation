@@ -76,7 +76,7 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
   - Right Publication Dossier Card:
     - Elevated document card (`background: #ffffff; border-top: 4px solid var(--brand-gold)`) with soft depth shadow.
     - Edition badge (`CURRENT EDITION · Q1 2026`) and page count (`38 Pages · PDF & Online`).
-    - Title: *Justice Bridge Index — Q1: Rights Awareness Baseline*.
+    - Title: _Justice Bridge Index — Q1: Rights Awareness Baseline_.
     - Abstract and 3-point key empirical findings with forest green checkmark icons.
     - Action cluster: Primary `Read online ↗` button + Secondary `Download PDF ↓` button.
     - Open access citation badge: `Open Access (CC BY 4.0) · Peer-Reviewed Civic Data`.
@@ -94,7 +94,7 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
   - **Hero & Empirical Benchmark Strip:** Breadcrumbs, gold beacon badge, Libre Baskerville header, 4 benchmark metrics (16 Regions, 4,200+ Citizens, Quarterly Releases, CC BY 4.0 License), quick section jump pills.
   - **Featured Edition Dossier Showcase:** Elevated white dossier card with 4px gold accent border, edition badges, executive abstract, 3-point empirical findings with forest green checkmark icons, factual `Read online` & `Download PDF` actions, `Cite publication` modal trigger, and `Share` link copy button with toast feedback.
   - **Side Research Governance Card:** Principal investigator details, empirical scope across all 16 regions, dual peer-review standards, and an academic data inquiry callout.
-  - **Interactive Report Viewer:** Tabbed on-page reader covering *Executive Summary*, *Survey Findings* (with comparative empirical dispute resolution data table), *Regional Indicators* across all 16 Ghanaian regions, and *Policy Remedies*.
+  - **Interactive Report Viewer:** Tabbed on-page reader covering _Executive Summary_, _Survey Findings_ (with comparative empirical dispute resolution data table), _Regional Indicators_ across all 16 Ghanaian regions, and _Policy Remedies_.
   - **Searchable & Filterable Publication Archive:** Search bar with live keyword filtering across titles/descriptions/focus areas, year filter pills (`All`, `2026`, `2025`), live result counter, reset filter actions, and structured empty state with reset trigger.
   - **Methodology & Integrity Section:** 3-column breakdown covering Stratified National Sampling, Multidisciplinary Review, and Open Access Licensing standards.
   - **Scholarly Citation Modal:** Multi-format citation generator (APA 7th, Harvard, BibTeX) with 1-click clipboard copy and accessible modal trap/backdrop dismiss.
@@ -103,8 +103,8 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
   - Floating white card footer (`.footer-card`) on an off-white canvas (`#f6f7f9`) with soft shadow elevation.
   - Massive, subtle brand watermark typography (`"EQUITY BRIDGE"`) faded behind the card.
   - Brand identity column with `BrandMark`, mission synopsis, and interactive social icons (X, Instagram, LinkedIn, GitHub).
-  - 3 structured link columns (*Programs*, *Resources*, *Organization*).
-  - Clean divider and bottom row with copyright and inline legal links (*Privacy Policy*, *Terms of Service*, *Legal Disclaimer*, *Accessibility*).
+  - 3 structured link columns (_Programs_, _Resources_, _Organization_).
+  - Clean divider and bottom row with copyright and inline legal links (_Privacy Policy_, _Terms of Service_, _Legal Disclaimer_, _Accessibility_).
 
 ---
 
@@ -163,6 +163,14 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
 
 - Supabase live CMS connection is optional; when environment variables are not configured, fallback constants ensure 100% operational uptime.
 
+## Performance & Responsive Update
+
+- Homepage visual backgrounds are dynamically imported to keep the initial server-rendered content lightweight.
+- Three.js dots use lower density on small screens, capped device pixel ratio, throttled rendering, visibility pausing, and reduced-motion support.
+- Motion-library wrappers were removed from the beams and gradient backgrounds where CSS and native DOM behavior are sufficient.
+- Below-the-fold homepage sections use `content-visibility: auto` with intrinsic sizing to reduce initial layout and paint work.
+- Mobile layout uses a 72px header, narrower content gutters, stacked actions, and single-column content grids below 640px.
+
 ## Build Phase Log
 
 - Refreshed the homepage hero to use a centered, editorial layout inspired by the supplied reference image while preserving the existing site navigation and legal-aid content.
@@ -197,4 +205,3 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
   - Redesigned the emergency card into an alert box with high-contrast badge (`URGENT INTERVENTION`) and direct telephone pills (`Police: 191 / 112`, `DOVVSU: 0800 111 222`, `Legal Aid: 0302 669 220`).
   - Upgraded the intake submission button to a high-contrast Forest Emerald gradient (`linear-gradient(135deg, #0f4d4c 0%, #156260 100%)`) with white typography and subtle hover lift, replacing the heavy mustard yellow styling.
   - Constrained all form padding and textarea rows (`rows={2}`) so the entire intake experience fits into `calc(100svh - 84px)` on desktop displays with zero vertical overflow.
-

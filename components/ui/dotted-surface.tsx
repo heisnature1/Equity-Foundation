@@ -36,12 +36,18 @@ export default function DottedSurface({
     const container = containerRef.current;
     if (!container) return;
 
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reducedMotion) return;
+
     let animationFrameId: number;
     let count = 0;
+    let lastFrameTime = 0;
 
-    // Grid configuration: 48 x 42 points with clean uniform spacing
-    const AMOUNTX = 48;
-    const AMOUNTY = 42;
+    const isSmallScreen = window.matchMedia("(max-width: 640px)").matches;
+    const AMOUNTX = isSmallScreen ? 30 : 48;
+    const AMOUNTY = isSmallScreen ? 26 : 42;
     const SEPARATION = 64;
     const numParticles = AMOUNTX * AMOUNTY;
 
@@ -60,7 +66,7 @@ export default function DottedSurface({
       antialias: true,
       powerPreference: "high-performance",
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(width, height);
     renderer.domElement.style.width = "100%";
     renderer.domElement.style.height = "100%";
@@ -110,9 +116,14 @@ export default function DottedSurface({
 
           // Organized depth gradient: deep atmospheric emerald in distance, transitioning
           // cleanly to radiant gold and vibrant emerald toward the foreground
-          const baseColor = colorDeepInk.clone().lerp(colorEmerald, ratioY * 0.7);
+          const baseColor = colorDeepInk
+            .clone()
+            .lerp(colorEmerald, ratioY * 0.7);
           const lateralColor = Math.sin(ratioX * Math.PI); // Peak gold towards the center
-          const finalColor = baseColor.lerp(colorGold, lateralColor * (0.35 + ratioY * 0.45));
+          const finalColor = baseColor.lerp(
+            colorGold,
+            lateralColor * (0.35 + ratioY * 0.45),
+          );
 
           colors[cIdx] = finalColor.r;
           colors[cIdx + 1] = finalColor.g;
@@ -147,11 +158,15 @@ export default function DottedSurface({
     points.position.set(0, pointsY, 0);
     scene.add(points);
 
-    const positionAttribute = geometry.attributes.position as THREE.BufferAttribute;
+    const positionAttribute = geometry.attributes
+      .position as THREE.BufferAttribute;
 
     // Animation render loop
-    const animate = () => {
+    const animate = (time: number) => {
       animationFrameId = requestAnimationFrame(animate);
+
+      if (document.hidden || time - lastFrameTime < 33) return;
+      lastFrameTime = time;
 
       let idx = 0;
       for (let ix = 0; ix < AMOUNTX; ix++) {
@@ -159,7 +174,7 @@ export default function DottedSurface({
           // Clean, organized perspective wave propagating forward along the depth axis (iy)
           // Preserves perfectly straight columns and parallel perspective lines
           const waveY =
-            Math.sin((iy * 0.26) - count) * (waveAmplitude * 0.8) +
+            Math.sin(iy * 0.26 - count) * (waveAmplitude * 0.8) +
             Math.sin(ix * 0.16) * (waveAmplitude * 0.2);
           positions[idx + 1] = waveY;
           idx += 3;
@@ -172,7 +187,15 @@ export default function DottedSurface({
       renderer.render(scene, camera);
     };
 
-    animate();
+    animate(0);
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        lastFrameTime = 0;
+        animate(performance.now());
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     // Resize observer
     const handleResize = () => {
@@ -191,6 +214,7 @@ export default function DottedSurface({
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       resizeObserver.disconnect();
       if (renderer.domElement.parentElement) {
         renderer.domElement.parentElement.removeChild(renderer.domElement);
@@ -200,7 +224,18 @@ export default function DottedSurface({
       circleTexture?.dispose();
       renderer.dispose();
     };
-  }, [size, opacity, sizeAttenuation, vertexColors, waveAmplitude, waveSpeed, pointsY, cameraY, cameraZ, lookAtY]);
+  }, [
+    size,
+    opacity,
+    sizeAttenuation,
+    vertexColors,
+    waveAmplitude,
+    waveSpeed,
+    pointsY,
+    cameraY,
+    cameraZ,
+    lookAtY,
+  ]);
 
   return (
     <div

@@ -16,9 +16,11 @@ import {
   HelpCircle,
   Landmark,
 } from "lucide-react";
-import DottedSurface from "@/components/ui/dotted-surface";
-import { BeamsBackground } from "@/components/ui/beams-background";
-import AnimatedGradientBackground from "@/components/ui/animated-gradient-background";
+import {
+  AnimatedGradientBackground,
+  BeamsBackground,
+  DottedSurface,
+} from "@/components/home-visual-effects";
 import {
   getPublicSiteSettings,
   getPublishedPageContent,
@@ -307,10 +309,7 @@ export default async function Home() {
               <Link href="/legal-help" className="button button--primary">
                 Get legal help <span aria-hidden="true">↗</span>
               </Link>
-              <Link
-                href="/know-your-rights"
-                className="button button--dark"
-              >
+              <Link href="/know-your-rights" className="button button--dark">
                 Know your rights
               </Link>
             </div>
@@ -352,9 +351,9 @@ export default async function Home() {
                 A practical response to <em>access-to-justice</em> barriers.
               </h2>
               <p className="pillar-header__description">
-                Equity Bridge Foundation focuses on legal aid, advocacy, and public legal
-                education as part of a structured civic effort to defend rights and ensure equal
-                access across Ghana.
+                Equity Bridge Foundation focuses on legal aid, advocacy, and
+                public legal education as part of a structured civic effort to
+                defend rights and ensure equal access across Ghana.
               </p>
             </div>
 
@@ -362,10 +361,7 @@ export default async function Home() {
               {pillars.map((pillar) => {
                 const Icon = pillar.icon;
                 return (
-                  <article
-                    key={pillar.index}
-                    className="pillar-card"
-                  >
+                  <article key={pillar.index} className="pillar-card">
                     <div className="pillar-card__header">
                       <div
                         className="pillar-card__icon-badge"
@@ -379,7 +375,9 @@ export default async function Home() {
                     <div className="pillar-card__body">
                       <span className="pillar-card__tag">{pillar.tag}</span>
                       <h3 className="pillar-card__title">{pillar.title}</h3>
-                      <p className="pillar-card__description">{pillar.description}</p>
+                      <p className="pillar-card__description">
+                        {pillar.description}
+                      </p>
 
                       <ul
                         className="pillar-card__highlights"
@@ -416,7 +414,10 @@ export default async function Home() {
         </BeamsBackground>
       </section>
 
-      <section className="section--jbi relative overflow-hidden" id="justice-bridge-index">
+      <section
+        className="section--jbi relative overflow-hidden"
+        id="justice-bridge-index"
+      >
         <AnimatedGradientBackground
           startingGap={110}
           Breathing={true}
@@ -445,12 +446,16 @@ export default async function Home() {
                 Evidence-based research on access to justice in Ghana.
               </h2>
               <p className="jbi-lede">
-                The Justice Bridge Index is an empirical quarterly publication examining
-                systemic rights disparities, institutional remedies, and legal awareness across
-                all 16 administrative regions of Ghana.
+                The Justice Bridge Index is an empirical quarterly publication
+                examining systemic rights disparities, institutional remedies,
+                and legal awareness across all 16 administrative regions of
+                Ghana.
               </p>
 
-              <div className="jbi-metrics" aria-label="Research coverage metrics">
+              <div
+                className="jbi-metrics"
+                aria-label="Research coverage metrics"
+              >
                 <div className="jbi-metric">
                   <span className="jbi-metric__number">16</span>
                   <span className="jbi-metric__label">Regions Monitored</span>
@@ -467,7 +472,11 @@ export default async function Home() {
 
               <Link href="/justice-bridge-index" className="jbi-archive-link">
                 <span>Browse publication archive (2024–2026)</span>
-                <ArrowRight size={15} className="jbi-archive-link__icon" aria-hidden="true" />
+                <ArrowRight
+                  size={15}
+                  className="jbi-archive-link__icon"
+                  aria-hidden="true"
+                />
               </Link>
             </div>
 
@@ -484,24 +493,46 @@ export default async function Home() {
                 Justice Bridge Index — Q1: Rights Awareness Baseline
               </h3>
               <p className="jbi-card__abstract">
-                A planned baseline empirical study assessing public familiarity with constitutional
-                guarantees, community legal institutions, and barriers to prompt legal remedies.
+                A planned baseline empirical study assessing public familiarity
+                with constitutional guarantees, community legal institutions,
+                and barriers to prompt legal remedies.
               </p>
 
               <div className="jbi-card__findings">
-                <p className="jbi-card__findings-title">Key Empirical Focus Areas:</p>
+                <p className="jbi-card__findings-title">
+                  Key Empirical Focus Areas:
+                </p>
                 <ul className="jbi-card__findings-list">
                   <li>
-                    <Check size={14} className="jbi-card__check" aria-hidden="true" />
-                    <span>Public literacy gap on state Legal Aid Commission avenues</span>
+                    <Check
+                      size={14}
+                      className="jbi-card__check"
+                      aria-hidden="true"
+                    />
+                    <span>
+                      Public literacy gap on state Legal Aid Commission avenues
+                    </span>
                   </li>
                   <li>
-                    <Check size={14} className="jbi-card__check" aria-hidden="true" />
-                    <span>Regional breakdown of tenancy and domestic dispute resolution</span>
+                    <Check
+                      size={14}
+                      className="jbi-card__check"
+                      aria-hidden="true"
+                    />
+                    <span>
+                      Regional breakdown of tenancy and domestic dispute
+                      resolution
+                    </span>
                   </li>
                   <li>
-                    <Check size={14} className="jbi-card__check" aria-hidden="true" />
-                    <span>Institutional trust benchmarks across peri-urban districts</span>
+                    <Check
+                      size={14}
+                      className="jbi-card__check"
+                      aria-hidden="true"
+                    />
+                    <span>
+                      Institutional trust benchmarks across peri-urban districts
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -533,7 +564,10 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="section section--know-your-rights relative overflow-hidden" id="know-your-rights">
+      <section
+        className="section section--know-your-rights relative overflow-hidden"
+        id="know-your-rights"
+      >
         {/* Organized 3D dot grid anchored strictly below the content cards */}
         <div className="kyr-dots-container" aria-hidden="true">
           <DottedSurface
@@ -553,10 +587,13 @@ export default async function Home() {
               <span className="jbi-pill-badge__dot" aria-hidden="true" />
               <span>KNOW YOUR RIGHTS</span>
             </div>
-            <h2 className="kyr-section-title">Plain-language legal information for everyday decisions.</h2>
+            <h2 className="kyr-section-title">
+              Plain-language legal information for everyday decisions.
+            </h2>
             <p className="kyr-section-desc">
-              These practical topic areas help the public understand basic rights, statutory protections,
-              and where they can begin to seek immediate guidance across Ghana.
+              These practical topic areas help the public understand basic
+              rights, statutory protections, and where they can begin to seek
+              immediate guidance across Ghana.
             </p>
           </div>
 
@@ -580,8 +617,14 @@ export default async function Home() {
                 </div>
 
                 <div className="kyr-topic-card__footer">
-                  <span className="kyr-topic-card__action">Read legal guide</span>
-                  <ArrowUpRight size={14} className="kyr-topic-card__arrow" aria-hidden="true" />
+                  <span className="kyr-topic-card__action">
+                    Read legal guide
+                  </span>
+                  <ArrowUpRight
+                    size={14}
+                    className="kyr-topic-card__arrow"
+                    aria-hidden="true"
+                  />
                 </div>
               </Link>
             ))}
@@ -590,18 +633,26 @@ export default async function Home() {
           <div className="kyr-bottom-banner">
             <div className="kyr-bottom-banner__content">
               <h3 className="kyr-bottom-banner__title">
-                Looking for guidance on family law, bail rights, or pro bono casework?
+                Looking for guidance on family law, bail rights, or pro bono
+                casework?
               </h3>
               <p className="kyr-bottom-banner__desc">
-                Our open legal knowledgebase includes 8 full plain-language statutory guides and direct clinic intake.
+                Our open legal knowledgebase includes 8 full plain-language
+                statutory guides and direct clinic intake.
               </p>
             </div>
             <div className="kyr-bottom-banner__actions">
-              <Link href="/know-your-rights" className="button button--secondary kyr-banner-btn">
+              <Link
+                href="/know-your-rights"
+                className="button button--secondary kyr-banner-btn"
+              >
                 <span>Browse all 8 guides</span>
                 <ArrowRight size={14} aria-hidden="true" />
               </Link>
-              <Link href="/legal-help" className="button button--primary kyr-banner-btn">
+              <Link
+                href="/legal-help"
+                className="button button--primary kyr-banner-btn"
+              >
                 <span>Get free legal help</span>
                 <ArrowUpRight size={14} aria-hidden="true" />
               </Link>
@@ -611,7 +662,10 @@ export default async function Home() {
       </section>
 
       {/* SECTION 5: ADVOCACY & CAMPAIGNS */}
-      <section className="section--campaigns relative overflow-hidden" id="advocacy">
+      <section
+        className="section--campaigns relative overflow-hidden"
+        id="advocacy"
+      >
         <div className="container relative z-10 w-full">
           <div className="campaigns-header">
             <div className="jbi-pill-badge">
@@ -622,8 +676,9 @@ export default async function Home() {
               Evidence-driven advocacy, policy oversight, and rights defense.
             </h2>
             <p className="campaigns-description">
-              Verified public-interest campaigns and community legal literacy initiatives led by
-              Equity Bridge Foundation across all 16 regions of Ghana.
+              Verified public-interest campaigns and community legal literacy
+              initiatives led by Equity Bridge Foundation across all 16 regions
+              of Ghana.
             </p>
           </div>
 
@@ -633,7 +688,10 @@ export default async function Home() {
               return (
                 <article key={campaign.title} className="campaign-card">
                   <div className="campaign-card__header">
-                    <div className="campaign-card__icon-wrap" aria-hidden="true">
+                    <div
+                      className="campaign-card__icon-wrap"
+                      aria-hidden="true"
+                    >
                       <Icon size={20} />
                     </div>
                     <span className="campaign-card__tag">{campaign.tag}</span>
@@ -641,10 +699,15 @@ export default async function Home() {
 
                   <div className="campaign-card__body">
                     <h3 className="campaign-card__title">{campaign.title}</h3>
-                    <p className="campaign-card__desc">{campaign.description}</p>
-                    
+                    <p className="campaign-card__desc">
+                      {campaign.description}
+                    </p>
+
                     <div className="campaign-card__metric-badge">
-                      <span className="campaign-card__metric-dot" aria-hidden="true" />
+                      <span
+                        className="campaign-card__metric-dot"
+                        aria-hidden="true"
+                      />
                       <span>{campaign.metrics}</span>
                     </div>
                   </div>
@@ -652,7 +715,11 @@ export default async function Home() {
                   <div className="campaign-card__footer">
                     <Link href={campaign.href} className="campaign-card__link">
                       <span>{campaign.cta}</span>
-                      <ArrowUpRight size={14} className="campaign-card__arrow" aria-hidden="true" />
+                      <ArrowUpRight
+                        size={14}
+                        className="campaign-card__arrow"
+                        aria-hidden="true"
+                      />
                     </Link>
                   </div>
                 </article>
@@ -662,7 +729,10 @@ export default async function Home() {
 
           <div className="campaigns-footer">
             <Link href="/advocacy" className="campaigns-footer__link">
-              <span>View all active advocacy agendas & institutional monitoring reports</span>
+              <span>
+                View all active advocacy agendas & institutional monitoring
+                reports
+              </span>
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
           </div>
@@ -670,7 +740,10 @@ export default async function Home() {
       </section>
 
       {/* SECTION 6: GET INVOLVED (CIVIC ACTION & PRO BONO) */}
-      <section className="section--get-involved relative overflow-hidden" id="get-involved">
+      <section
+        className="section--get-involved relative overflow-hidden"
+        id="get-involved"
+      >
         <div className="container relative z-10 w-full">
           <div className="get-involved-header">
             <div className="pillar-header__badge">
@@ -680,8 +753,9 @@ export default async function Home() {
               Be part of the movement for <em>equitable justice</em> in Ghana.
             </h2>
             <p className="get-involved-description">
-              Join legal practitioners, community volunteers, and institutional partners working
-              together to defend constitutional protections and support indigent citizens.
+              Join legal practitioners, community volunteers, and institutional
+              partners working together to defend constitutional protections and
+              support indigent citizens.
             </p>
           </div>
 
@@ -701,10 +775,17 @@ export default async function Home() {
                     <h3 className="pathway-card__title">{pathway.title}</h3>
                     <p className="pathway-card__desc">{pathway.description}</p>
 
-                    <ul className="pathway-card__highlights" aria-label={`Highlights for ${pathway.title}`}>
+                    <ul
+                      className="pathway-card__highlights"
+                      aria-label={`Highlights for ${pathway.title}`}
+                    >
                       {pathway.highlights.map((item) => (
                         <li key={item}>
-                          <Check size={14} className="pathway-card__check" aria-hidden="true" />
+                          <Check
+                            size={14}
+                            className="pathway-card__check"
+                            aria-hidden="true"
+                          />
                           <span>{item}</span>
                         </li>
                       ))}
@@ -714,7 +795,11 @@ export default async function Home() {
                   <div className="pathway-card__footer">
                     <Link href={pathway.href} className="pathway-card__action">
                       <span>{pathway.cta}</span>
-                      <ArrowUpRight size={14} className="pathway-card__arrow" aria-hidden="true" />
+                      <ArrowUpRight
+                        size={14}
+                        className="pathway-card__arrow"
+                        aria-hidden="true"
+                      />
                     </Link>
                   </div>
                 </article>
@@ -725,7 +810,10 @@ export default async function Home() {
       </section>
 
       {/* SECTION 7: LATEST INSIGHTS & EDITORIAL DISPATCHES */}
-      <section className="section--insights relative overflow-hidden" id="insights">
+      <section
+        className="section--insights relative overflow-hidden"
+        id="insights"
+      >
         <div className="container relative z-10 w-full">
           <div className="insights-header">
             <div className="jbi-pill-badge">
@@ -736,8 +824,9 @@ export default async function Home() {
               Latest insights, legal commentaries, and field updates.
             </h2>
             <p className="insights-description">
-              Timely research publications, statutory analyses, and plain-language rights
-              commentaries published by our legal research fellows.
+              Timely research publications, statutory analyses, and
+              plain-language rights commentaries published by our legal research
+              fellows.
             </p>
           </div>
 
@@ -757,7 +846,11 @@ export default async function Home() {
                 <div className="insight-card__footer">
                   <Link href={item.href} className="insight-card__link">
                     <span>Read publication</span>
-                    <ArrowUpRight size={14} className="insight-card__arrow" aria-hidden="true" />
+                    <ArrowUpRight
+                      size={14}
+                      className="insight-card__arrow"
+                      aria-hidden="true"
+                    />
                   </Link>
                 </div>
               </article>
@@ -766,20 +859,29 @@ export default async function Home() {
 
           <div className="insights-closing-banner">
             <div className="insights-closing-banner__content">
-              <div className="insights-closing-banner__badge">FREE PRO BONO INTAKE</div>
+              <div className="insights-closing-banner__badge">
+                FREE PRO BONO INTAKE
+              </div>
               <h3 className="insights-closing-banner__title">
                 Need immediate legal counsel or casework guidance?
               </h3>
               <p className="insights-closing-banner__desc">
-                Our foundation clinic provides confidential pro bono intake and triage for qualifying indigent citizens.
+                Our foundation clinic provides confidential pro bono intake and
+                triage for qualifying indigent citizens.
               </p>
             </div>
             <div className="insights-closing-banner__actions">
-              <Link href="/legal-help" className="button button--primary kyr-banner-btn">
+              <Link
+                href="/legal-help"
+                className="button button--primary kyr-banner-btn"
+              >
                 <span>Submit legal inquiry</span>
                 <ArrowUpRight size={14} aria-hidden="true" />
               </Link>
-              <Link href="/contact" className="button button--secondary kyr-banner-btn">
+              <Link
+                href="/contact"
+                className="button button--secondary kyr-banner-btn"
+              >
                 <span>Contact our office</span>
               </Link>
             </div>
