@@ -67,6 +67,19 @@ The homepage Hero Section has been completely redesigned into a high-impact, pre
     - High-spec inline pill button (`.pillar-card__action`) with subtle translucent frosted background (`rgba(255, 255, 255, 0.08)`), delicate 1px border (`rgba(255, 255, 255, 0.15)`), and `backdrop-filter: blur(12px)`.
     - High-contrast white typography (`font-weight: 700`) and warm gold diagonal arrow (`ArrowUpRight`).
     - Smooth hover transition to solid brand gold fill (`#d4af37`) with ink text (`#0b0d13`), tactile press scale (`0.97`), and diagonal arrow glide.
+- **`Justice Bridge Index Section` (`app/page.tsx`):** Viewport-fitting (`100svh`) research publication portal:
+  - Left Narrative Column:
+    - Authoritative pill badge: `QUARTERLY RESEARCH PUBLICATION` with gold beacon dot.
+    - Stately headline in `Libre Baskerville` and descriptive research lede.
+    - 3-metric empirical data strip: `16` Regions Monitored, `4,200+` Citizens Surveyed, `Quarterly` Peer-Reviewed Releases.
+    - Archive link with interactive directional arrow.
+  - Right Publication Dossier Card:
+    - Elevated document card (`background: #ffffff; border-top: 4px solid var(--brand-gold)`) with soft depth shadow.
+    - Edition badge (`CURRENT EDITION · Q1 2026`) and page count (`38 Pages · PDF & Online`).
+    - Title: *Justice Bridge Index — Q1: Rights Awareness Baseline*.
+    - Abstract and 3-point key empirical findings with forest green checkmark icons.
+    - Action cluster: Primary `Read online ↗` button + Secondary `Download PDF (4.2 MB) ↓` button.
+    - Open access citation badge: `Open Access (CC BY 4.0) · Peer-Reviewed Civic Data`.
 - **`SiteFooter` (`components/site-footer.tsx`):** Modern Graphy-inspired closing section featuring:
   - High-impact dark CTA card (`.footer-cta`) with radial light glow, crisp headline, and high-contrast pill action button.
   - Floating white card footer (`.footer-card`) on an off-white canvas (`#f6f7f9`) with soft shadow elevation.

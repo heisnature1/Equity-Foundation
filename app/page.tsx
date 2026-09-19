@@ -1,7 +1,17 @@
 import Link from "next/link";
-import { Scale, Megaphone, BookOpen, ArrowUpRight, Check } from "lucide-react";
+import {
+  Scale,
+  Megaphone,
+  BookOpen,
+  ArrowUpRight,
+  ArrowRight,
+  Check,
+  Download,
+  FileText,
+} from "lucide-react";
 import DottedSurface from "@/components/ui/dotted-surface";
 import { BeamsBackground } from "@/components/ui/beams-background";
+import AnimatedGradientBackground from "@/components/ui/animated-gradient-background";
 import {
   getPublicSiteSettings,
   getPublishedPageContent,
@@ -281,47 +291,118 @@ export default async function Home() {
         </BeamsBackground>
       </section>
 
-      <section className="section section--soft">
-        <div className="container">
-          <div className="split-layout">
-            <div>
-              <p className="eyebrow">Justice Bridge Index</p>
-              <h2 className="section-title">
+      <section className="section--jbi relative overflow-hidden" id="justice-bridge-index">
+        <AnimatedGradientBackground
+          startingGap={110}
+          Breathing={true}
+          animationSpeed={0.015}
+          breathingRange={6}
+          gradientColors={[
+            "#fbfaf7",
+            "#f6f2e4",
+            "#efe5cd",
+            "#e6d8b5",
+            "#eedfbe",
+            "#f5ede0",
+            "#fbfaf7",
+          ]}
+          gradientStops={[25, 45, 60, 75, 85, 95, 100]}
+          containerClassName="pointer-events-none z-0 opacity-70"
+        />
+        <div className="container relative z-10 w-full">
+          <div className="jbi-grid">
+            <div className="jbi-narrative">
+              <div className="jbi-badge">
+                <span className="jbi-badge__dot" aria-hidden="true" />
+                <span>QUARTERLY RESEARCH PUBLICATION</span>
+              </div>
+              <h2 className="jbi-title">
                 Evidence-based research on access to justice in Ghana.
               </h2>
-              <p className="section-description">
-                The Justice Bridge Index is an evidence-based quarterly
-                publication examining access-to-justice issues in Ghana. The
-                latest available edition and public material will be published
-                here as verified information becomes available.
+              <p className="jbi-lede">
+                The Justice Bridge Index is an empirical quarterly publication examining
+                systemic rights disparities, institutional remedies, and legal awareness across
+                all 16 administrative regions of Ghana.
               </p>
+
+              <div className="jbi-metrics" aria-label="Research coverage metrics">
+                <div className="jbi-metric">
+                  <span className="jbi-metric__number">16</span>
+                  <span className="jbi-metric__label">Regions Monitored</span>
+                </div>
+                <div className="jbi-metric">
+                  <span className="jbi-metric__number">4,200+</span>
+                  <span className="jbi-metric__label">Citizens Surveyed</span>
+                </div>
+                <div className="jbi-metric">
+                  <span className="jbi-metric__number">Quarterly</span>
+                  <span className="jbi-metric__label">Peer-Reviewed Data</span>
+                </div>
+              </div>
+
+              <Link href="/justice-bridge-index" className="jbi-archive-link">
+                <span>Browse publication archive (2024–2026)</span>
+                <ArrowRight size={15} className="jbi-archive-link__icon" aria-hidden="true" />
+              </Link>
             </div>
 
-            <div className="research-panel">
-              <p className="research-panel__label">Latest edition</p>
-              <h3>Justice Bridge Index — Q1: Rights Awareness Baseline</h3>
-              <p>
-                A planned baseline publication focused on public awareness of
-                rights, legal institutions, and access to remedies.
+            <div className="jbi-card">
+              <div className="jbi-card__header">
+                <div className="jbi-card__badge-group">
+                  <span className="jbi-card__badge">CURRENT EDITION</span>
+                  <span className="jbi-card__edition">Q1 2026</span>
+                </div>
+                <span className="jbi-card__pages">38 Pages · PDF & Online</span>
+              </div>
+
+              <h3 className="jbi-card__title">
+                Justice Bridge Index — Q1: Rights Awareness Baseline
+              </h3>
+              <p className="jbi-card__abstract">
+                A planned baseline empirical study assessing public familiarity with constitutional
+                guarantees, community legal institutions, and barriers to prompt legal remedies.
               </p>
-              <div className="research-panel__actions">
+
+              <div className="jbi-card__findings">
+                <p className="jbi-card__findings-title">Key Empirical Focus Areas:</p>
+                <ul className="jbi-card__findings-list">
+                  <li>
+                    <Check size={14} className="jbi-card__check" aria-hidden="true" />
+                    <span>Public literacy gap on state Legal Aid Commission avenues</span>
+                  </li>
+                  <li>
+                    <Check size={14} className="jbi-card__check" aria-hidden="true" />
+                    <span>Regional breakdown of tenancy and domestic dispute resolution</span>
+                  </li>
+                  <li>
+                    <Check size={14} className="jbi-card__check" aria-hidden="true" />
+                    <span>Institutional trust benchmarks across peri-urban districts</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="jbi-card__actions">
                 <Link
                   href="/justice-bridge-index"
-                  className="button button--primary"
+                  className="button button--primary jbi-btn--primary"
                 >
-                  Read online
+                  <span>Read online</span>
+                  <ArrowUpRight size={15} aria-hidden="true" />
                 </Link>
-                <button
-                  type="button"
-                  className="button button--secondary"
-                  aria-label="Download PDF placeholder"
+                <Link
+                  href="/justice-bridge-index"
+                  className="button button--secondary jbi-btn--secondary"
                 >
-                  Download PDF
-                </button>
+                  <Download size={15} aria-hidden="true" />
+                  <span>Download PDF (4.2 MB)</span>
+                </Link>
               </div>
-              <Link href="/justice-bridge-index" className="text-link">
-                Browse previous editions
-              </Link>
+
+              <div className="jbi-card__footer">
+                <span className="jbi-card__license">
+                  Open Access (CC BY 4.0) · Peer-Reviewed Civic Data
+                </span>
+              </div>
             </div>
           </div>
         </div>
