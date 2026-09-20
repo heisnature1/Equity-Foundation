@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Libre_Baskerville, Manrope } from "next/font/google";
 import "./globals.css";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import { SiteChrome } from "@/components/site-chrome";
 
 const displayFont = Libre_Baskerville({
   variable: "--font-display",
@@ -50,9 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}>
       <body className="site-shell">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

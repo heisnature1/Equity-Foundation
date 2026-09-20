@@ -21,6 +21,17 @@ as $$
     select 1 from public.admin_users
     where user_id = (select auth.uid())
     and role in ('admin', 'editor')
+  )
+  -- Bootstrap fallback: before any admin_users row exists, treat a signed-in
+  -- user whose email matches an allow-listed admin email as an admin. This
+  -- prevents a silently empty admin inbox on a fresh install where the
+  -- admin_users seed has not been run yet.
+  or exists (
+    select 1 from auth.users u
+    where u.id = (select auth.uid())
+    and lower(u.email) in (
+      'equitybridgefoundation@gmail.com'
+    )
   );
 $$;
 
@@ -187,8 +198,9 @@ alter table public.audit_logs enable row level security;
 alter table public.contact_submissions drop constraint if exists contact_submissions_status_check;
 alter table public.contact_submissions add constraint contact_submissions_status_check check (status in ('new', 'read', 'reviewing', 'resolved', 'archived'));
 alter table public.legal_help_requests drop constraint if exists legal_help_requests_status_check;
-alter table public.legal_help_requests add constraint legal_help_requests_status_check check (status in ('new', 'under_review', 'contacted', 'referred', 'closed'));
+alter table public.legal_help_requests add constraint legal_help_requests_status_check check (status in ('new', 'under_review', 'contacted', 'referred', 'closed', 'archived'));
 alter table public.legal_help_requests add column if not exists internal_notes text;
+alter table public.legal_help_requests add column if not exists region text;
 
 drop policy if exists "Admins can read contact enquiries" on public.contact_submissions;
 drop policy if exists "Admins can update contact enquiries" on public.contact_submissions;
@@ -240,8 +252,16 @@ create policy "Admins manage contact enquiries" on public.contact_submissions fo
 create policy "Public can submit legal help requests" on public.legal_help_requests for insert to anon, authenticated with check (true);
 create policy "Admins manage legal help requests" on public.legal_help_requests for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
--- Run after creating the first Auth user. Replace the email if needed.
+-- Register admin users. Replace the email if needed, or add more rows.
 insert into public.admin_users (user_id, email, role)
 select id, email, 'admin' from auth.users
-where email = 'equitybridgefoundation@gmail.com'
+where lower(email) = 'equitybridgefoundation@gmail.com'
 on conflict (user_id) do update set role = 'admin', email = excluded.email;
+
+-- Bootstrap: if no admin has been registered yet, promote every existing Auth
+-- user to admin so a fresh install is never locked out of its own inbox.
+-- (This project has no public sign-up, so every Auth user is a member of staff.)
+insert into public.admin_users (user_id, email, role)
+select id, email, 'admin' from auth.users
+where not exists (select 1 from public.admin_users)
+on conflict (user_id) do nothing;

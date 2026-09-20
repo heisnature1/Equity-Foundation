@@ -9,6 +9,7 @@ export async function POST(request: Request) {
     email: String(formData.get("email") ?? "").trim() || null,
     contact_method: String(formData.get("contactMethod") ?? "").trim(),
     issue: String(formData.get("issue") ?? "").trim(),
+    region: String(formData.get("region") ?? "").trim() || null,
     details: String(formData.get("details") ?? "").trim(),
     language: String(formData.get("language") ?? "").trim(),
   };
@@ -35,11 +36,19 @@ export async function POST(request: Request) {
     );
   }
 
-  const { error } = await supabase
-    .from("legal_help_requests")
-    .insert(submission);
+  let { error } = await supabase.from("legal_help_requests").insert(submission);
+
+  // Resilience: if the optional `region` column has not been added yet (an older
+  // schema), PostgREST rejects the whole insert. Drop the field and retry so a
+  // missing optional column can never block a visitor's submission.
+  if (error && error.code === "PGRST204" && /region/i.test(error.message)) {
+    const { region: _region, ...withoutRegion } = submission;
+    void _region;
+    ({ error } = await supabase.from("legal_help_requests").insert(withoutRegion));
+  }
 
   if (error) {
+    console.error("legal-help insert failed:", error);
     return NextResponse.json(
       { error: "The request could not be submitted." },
       { status: 500 },

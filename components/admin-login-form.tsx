@@ -4,10 +4,11 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const supabase = supabaseUrl && supabasePublishableKey
+  ? createBrowserClient(supabaseUrl, supabasePublishableKey)
+  : null;
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -17,6 +18,12 @@ export function AdminLoginForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+
+    if (!supabase) {
+      setError("Admin sign-in is not configured yet. Add your Supabase environment variables.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
@@ -26,7 +33,9 @@ export function AdminLoginForm() {
     });
 
     if (signInError) {
-      setError("The email or password was not recognised.");
+      // Surface the real reason: wrong credentials, unconfirmed email, or a
+      // project misconfiguration all need different fixes, so do not guess.
+      setError(signInError.message || "The email or password was not recognised.");
       setIsSubmitting(false);
       return;
     }

@@ -27,20 +27,37 @@ import {
   BookOpen,
 } from "lucide-react";
 
+/** A rights guide row as stored in Supabase. Only published rows reach the client. */
+export type DbRightsResource = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string | null;
+  content: string | null;
+  category: string | null;
+  last_updated: string | null;
+  last_reviewed: string | null;
+  sources: Array<{ title?: string; url?: string }> | null;
+};
+
 export interface LegalTopic {
   id: string;
   slug: string;
   title: string;
   category: string;
-  categoryLabel: string;
-  statute: string;
-  iconName: string;
   summary: string;
-  keyPoints: string[];
-  actionSteps: string[];
-  commonMyth: { myth: string; reality: string };
-  officialContacts: Array<{ name: string; contact: string; note: string }>;
-  citation: string;
+  // The curated guides below carry every field. A guide published from the
+  // admin workspace only has a title, summary, body and category, so the rest
+  // is optional and each section renders only when it has something to show.
+  categoryLabel?: string;
+  statute?: string;
+  iconName?: string;
+  keyPoints?: string[];
+  actionSteps?: string[];
+  commonMyth?: { myth: string; reality: string };
+  officialContacts?: Array<{ name: string; contact: string; note: string }>;
+  citation?: string;
+  content?: string;
 }
 
 const TOPICS_DATA: LegalTopic[] = [
@@ -401,7 +418,7 @@ const CATEGORIES = [
   { id: "constitutional-law", label: "1992 Constitution", count: 1 },
 ];
 
-function getTopicIcon(iconName: string) {
+function getTopicIcon(iconName?: string) {
   switch (iconName) {
     case "ShieldAlert":
       return ShieldAlert;
@@ -424,14 +441,74 @@ function getTopicIcon(iconName: string) {
   }
 }
 
-export default function KnowYourRightsPortal() {
+const CATEGORY_LABELS = new Map<string, string>(
+  CATEGORIES.map((category) => [category.id, category.label]),
+);
+
+function categoryLabel(id: string) {
+  return (
+    CATEGORY_LABELS.get(id) ??
+    id.replaceAll("-", " ").replace(/\b\w/g, (char) => char.toUpperCase())
+  );
+}
+
+function toLegalTopic(record: DbRightsResource): LegalTopic {
+  const category = record.category?.trim() || "general";
+  return {
+    id: record.id,
+    slug: record.slug,
+    title: record.title,
+    category,
+    categoryLabel: categoryLabel(category),
+    summary: record.summary ?? "",
+    content: record.content ?? "",
+  };
+}
+
+export default function KnowYourRightsPortal({
+  dbResources = [],
+}: {
+  dbResources?: DbRightsResource[];
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedTopic, setSelectedTopic] = useState<LegalTopic | null>(null);
 
+  // Guides published from the admin workspace come first; the curated guides
+  // then fill in everything the database does not cover, so the page is never
+  // empty and an admin's published work is always visible.
+  const topics = useMemo(() => {
+    const published = dbResources.map(toLegalTopic);
+    const curated = TOPICS_DATA.filter(
+      (item) =>
+        !published.some(
+          (entry) => entry.title === item.title || entry.slug === item.slug,
+        ),
+    );
+    return [...published, ...curated];
+  }, [dbResources]);
+
+  // Build the filter pills from the guides actually on the page, so a category
+  // created in the admin workspace is filterable rather than reachable only
+  // through "All".
+  const categoryTabs = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const topic of topics) {
+      counts.set(topic.category, (counts.get(topic.category) ?? 0) + 1);
+    }
+    return [
+      { id: "all", label: "All Rights Guides" },
+      ...Array.from(counts, ([id, count]) => ({
+        id,
+        label: categoryLabel(id),
+        count,
+      })),
+    ];
+  }, [topics]);
+
   // Filter topics based on search & category
   const filteredTopics = useMemo(() => {
-    return TOPICS_DATA.filter((topic) => {
+    return topics.filter((topic) => {
       const matchesCategory =
         activeCategory === "all" || topic.category === activeCategory;
 
@@ -443,14 +520,15 @@ export default function KnowYourRightsPortal() {
       return (
         topic.title.toLowerCase().includes(q) ||
         topic.summary.toLowerCase().includes(q) ||
-        topic.categoryLabel.toLowerCase().includes(q) ||
-        topic.statute.toLowerCase().includes(q) ||
-        topic.keyPoints.some((p) => p.toLowerCase().includes(q)) ||
-        topic.actionSteps.some((s) => s.toLowerCase().includes(q)) ||
-        topic.commonMyth.myth.toLowerCase().includes(q)
+        (topic.categoryLabel ?? "").toLowerCase().includes(q) ||
+        (topic.statute ?? "").toLowerCase().includes(q) ||
+        (topic.content ?? "").toLowerCase().includes(q) ||
+        (topic.keyPoints ?? []).some((p) => p.toLowerCase().includes(q)) ||
+        (topic.actionSteps ?? []).some((s) => s.toLowerCase().includes(q)) ||
+        (topic.commonMyth?.myth ?? "").toLowerCase().includes(q)
       );
     });
-  }, [searchQuery, activeCategory]);
+  }, [topics, searchQuery, activeCategory]);
 
   return (
     <div className="kyr-portal">
@@ -539,7 +617,7 @@ export default function KnowYourRightsPortal() {
 
           {/* Category Filter Pills */}
           <div className="kyr-category-tabs" role="tablist" aria-label="Rights categories">
-            {CATEGORIES.map((cat) => {
+            {categoryTabs.map((cat) => {
               const isActive = activeCategory === cat.id;
               return (
                 <button
@@ -565,7 +643,7 @@ export default function KnowYourRightsPortal() {
         <div className="container">
           <div className="kyr-results-bar">
             <p className="kyr-results-count">
-              Showing <strong>{filteredTopics.length}</strong> of {TOPICS_DATA.length} practical
+              Showing <strong>{filteredTopics.length}</strong> of {topics.length} practical
               legal guides
             </p>
             {searchQuery && (
@@ -621,20 +699,24 @@ export default function KnowYourRightsPortal() {
                     </div>
 
                     <h2 className="kyr-guide-card__title">{topic.title}</h2>
-                    <p className="kyr-guide-card__statute">{topic.statute}</p>
+                    {topic.statute ? (
+                      <p className="kyr-guide-card__statute">{topic.statute}</p>
+                    ) : null}
                     <p className="kyr-guide-card__summary">{topic.summary}</p>
 
-                    <div className="kyr-guide-card__highlights">
-                      <p className="kyr-guide-card__highlights-heading">Key Protections:</p>
-                      <ul className="kyr-guide-card__highlights-list">
-                        {topic.keyPoints.slice(0, 2).map((point, idx) => (
-                          <li key={idx}>
-                            <Check size={14} className="kyr-guide-card__check" aria-hidden="true" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {topic.keyPoints?.length ? (
+                      <div className="kyr-guide-card__highlights">
+                        <p className="kyr-guide-card__highlights-heading">Key Protections:</p>
+                        <ul className="kyr-guide-card__highlights-list">
+                          {topic.keyPoints.slice(0, 2).map((point, idx) => (
+                            <li key={idx}>
+                              <Check size={14} className="kyr-guide-card__check" aria-hidden="true" />
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
 
                     <div className="kyr-guide-card__footer">
                       <button
@@ -707,7 +789,9 @@ export default function KnowYourRightsPortal() {
             <div className="kyr-modal__header">
               <div className="kyr-modal__badge-group">
                 <span className="kyr-modal__badge">{selectedTopic.categoryLabel}</span>
-                <span className="kyr-modal__statute">{selectedTopic.statute}</span>
+                {selectedTopic.statute ? (
+                  <span className="kyr-modal__statute">{selectedTopic.statute}</span>
+                ) : null}
               </div>
               <button
                 type="button"
@@ -726,75 +810,100 @@ export default function KnowYourRightsPortal() {
               <p className="kyr-modal__lede">{selectedTopic.summary}</p>
 
               {/* Core Statutory Rights */}
-              <div className="kyr-modal__section">
-                <h3 className="kyr-modal__section-title">
-                  <Check size={18} className="kyr-modal__section-icon" aria-hidden="true" />
-                  <span>Statutory Rights & Guarantees</span>
-                </h3>
-                <ul className="kyr-modal__rights-list">
-                  {selectedTopic.keyPoints.map((point, i) => (
-                    <li key={i} className="kyr-modal__right-item">
-                      <span className="kyr-modal__bullet" aria-hidden="true" />
-                      <span>{point}</span>
-                    </li>
+              {selectedTopic.keyPoints?.length ? (
+                <div className="kyr-modal__section">
+                  <h3 className="kyr-modal__section-title">
+                    <Check size={18} className="kyr-modal__section-icon" aria-hidden="true" />
+                    <span>Statutory Rights & Guarantees</span>
+                  </h3>
+                  <ul className="kyr-modal__rights-list">
+                    {selectedTopic.keyPoints.map((point, i) => (
+                      <li key={i} className="kyr-modal__right-item">
+                        <span className="kyr-modal__bullet" aria-hidden="true" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              {/* Full body text for guides published from the admin workspace */}
+              {!selectedTopic.keyPoints?.length && selectedTopic.content ? (
+                <div className="kyr-modal__section">
+                  <h3 className="kyr-modal__section-title">
+                    <FileText size={18} className="kyr-modal__section-icon" aria-hidden="true" />
+                    <span>Full Guide</span>
+                  </h3>
+                  {selectedTopic.content.split("\n\n").map((paragraph, i) => (
+                    <p key={i} className="kyr-modal__body-text">
+                      {paragraph}
+                    </p>
                   ))}
-                </ul>
-              </div>
+                </div>
+              ) : null}
 
               {/* Action Steps */}
-              <div className="kyr-modal__section">
-                <h3 className="kyr-modal__section-title">
-                  <FileText size={18} className="kyr-modal__section-icon" aria-hidden="true" />
-                  <span>What to Do: Step-by-Step Action Plan</span>
-                </h3>
-                <div className="kyr-modal__steps">
-                  {selectedTopic.actionSteps.map((step, i) => (
-                    <div key={i} className="kyr-modal__step-card">
-                      <div className="kyr-modal__step-num">{i + 1}</div>
-                      <p className="kyr-modal__step-text">{step}</p>
-                    </div>
-                  ))}
+              {selectedTopic.actionSteps?.length ? (
+                <div className="kyr-modal__section">
+                  <h3 className="kyr-modal__section-title">
+                    <FileText size={18} className="kyr-modal__section-icon" aria-hidden="true" />
+                    <span>What to Do: Step-by-Step Action Plan</span>
+                  </h3>
+                  <div className="kyr-modal__steps">
+                    {selectedTopic.actionSteps.map((step, i) => (
+                      <div key={i} className="kyr-modal__step-card">
+                        <div className="kyr-modal__step-num">{i + 1}</div>
+                        <p className="kyr-modal__step-text">{step}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : null}
 
               {/* Common Myth vs Reality */}
-              <div className="kyr-modal__section kyr-modal__myth-box">
-                <div className="kyr-modal__myth-header">
-                  <AlertCircle size={16} aria-hidden="true" />
-                  <span>Common Legal Misconception</span>
+              {selectedTopic.commonMyth ? (
+                <div className="kyr-modal__section kyr-modal__myth-box">
+                  <div className="kyr-modal__myth-header">
+                    <AlertCircle size={16} aria-hidden="true" />
+                    <span>Common Legal Misconception</span>
+                  </div>
+                  <div className="kyr-modal__myth-body">
+                    <p className="kyr-modal__myth-line">
+                      <strong>Myth:</strong> &ldquo;{selectedTopic.commonMyth.myth}&rdquo;
+                    </p>
+                    <p className="kyr-modal__reality-line">
+                      <strong>Legal Reality:</strong> {selectedTopic.commonMyth.reality}
+                    </p>
+                  </div>
                 </div>
-                <div className="kyr-modal__myth-body">
-                  <p className="kyr-modal__myth-line">
-                    <strong>Myth:</strong> &ldquo;{selectedTopic.commonMyth.myth}&rdquo;
-                  </p>
-                  <p className="kyr-modal__reality-line">
-                    <strong>Legal Reality:</strong> {selectedTopic.commonMyth.reality}
-                  </p>
-                </div>
-              </div>
+              ) : null}
 
               {/* Verified Institutional Contact Points */}
-              <div className="kyr-modal__section">
-                <h3 className="kyr-modal__section-title">
-                  <MapPin size={18} className="kyr-modal__section-icon" aria-hidden="true" />
-                  <span>Verified Redress Points</span>
-                </h3>
-                <div className="kyr-modal__contacts-grid">
-                  {selectedTopic.officialContacts.map((contact, i) => (
-                    <div key={i} className="kyr-modal__contact-card">
-                      <p className="kyr-modal__contact-name">{contact.name}</p>
-                      <p className="kyr-modal__contact-val">{contact.contact}</p>
-                      <p className="kyr-modal__contact-note">{contact.note}</p>
-                    </div>
-                  ))}
+              {selectedTopic.officialContacts?.length ? (
+                <div className="kyr-modal__section">
+                  <h3 className="kyr-modal__section-title">
+                    <MapPin size={18} className="kyr-modal__section-icon" aria-hidden="true" />
+                    <span>Verified Redress Points</span>
+                  </h3>
+                  <div className="kyr-modal__contacts-grid">
+                    {selectedTopic.officialContacts.map((contact, i) => (
+                      <div key={i} className="kyr-modal__contact-card">
+                        <p className="kyr-modal__contact-name">{contact.name}</p>
+                        <p className="kyr-modal__contact-val">{contact.contact}</p>
+                        <p className="kyr-modal__contact-note">{contact.note}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : null}
 
               {/* Citation & Legal Disclaimer */}
               <div className="kyr-modal__citation-box">
-                <p className="kyr-modal__citation-text">
-                  <strong>Statutory Citation:</strong> {selectedTopic.citation}
-                </p>
+                {selectedTopic.citation ? (
+                  <p className="kyr-modal__citation-text">
+                    <strong>Statutory Citation:</strong> {selectedTopic.citation}
+                  </p>
+                ) : null}
                 <p className="kyr-modal__disclaimer">
                   This guide is published for public legal education only and does not constitute
                   formal advocate-client legal advice. If you face active proceedings, consult an

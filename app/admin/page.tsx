@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { hasSupabaseConfig } from "@/lib/supabase-env";
+import { getAdminAccess } from "@/lib/admin-access";
+
 
 type ContactSubmission = {
   id: string;
@@ -19,6 +22,12 @@ type LegalHelpRequest = {
   created_at: string;
 };
 
+// The dashboard lists only the most recent enquiries so it stays fast. The
+// headline totals are counted separately, so a real inbox of 40 never reports
+// itself as 5 — which is what happened when the list length was used as the
+// count.
+const RECENT_SUBMISSION_LIMIT = 5;
+
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-GB", {
     dateStyle: "medium",
@@ -27,6 +36,23 @@ function formatDate(value: string) {
 }
 
 export default async function AdminPage() {
+  if (!hasSupabaseConfig()) {
+    return (
+      <main className="admin-shell">
+        <div className="container">
+          <div className="page-card admin-card">
+            <p className="eyebrow">Protected workspace</p>
+            <h1 className="section-title">Admin dashboard unavailable</h1>
+            <p>
+              Add your Supabase URL and publishable key to the environment to enable sign-in and admin data access.
+            </p>
+            <a className="button button--secondary" href="/admin/login">Return to sign in</a>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -34,21 +60,36 @@ export default async function AdminPage() {
     redirect("/admin/login");
   }
 
-  const [{ data: contactSubmissions }, { data: legalHelpRequests }] = await Promise.all([
+  const [
+    { data: contactSubmissions, count: contactSubmissionCount, error: contactError },
+    { data: legalHelpRequests, count: legalHelpRequestCount, error: legalHelpError },
+  ] = await Promise.all([
     supabase
       .from("contact_submissions")
-      .select("id, name, email, subject, status, created_at")
+      .select("id, name, email, subject, status, created_at", { count: "exact" })
       .order("created_at", { ascending: false })
-      .limit(5),
+      .limit(RECENT_SUBMISSION_LIMIT),
     supabase
       .from("legal_help_requests")
-      .select("id, full_name, phone, issue, status, created_at")
+      .select("id, full_name, phone, issue, status, created_at", { count: "exact" })
       .order("created_at", { ascending: false })
-      .limit(5),
+      .limit(RECENT_SUBMISSION_LIMIT),
   ]);
 
   const contacts = (contactSubmissions ?? []) as ContactSubmission[];
   const requests = (legalHelpRequests ?? []) as LegalHelpRequest[];
+  const contactSubmissionTotal = contactSubmissionCount ?? contacts.length;
+  const legalHelpRequestTotal = legalHelpRequestCount ?? requests.length;
+  // These queries used to fail silently: an error left `data` null, so the
+  // dashboard rendered "no enquiries yet" and a partially-applied database
+  // schema looked like a genuinely empty inbox. Surface it instead.
+  const inboxError = contactError ?? legalHelpError;
+  const inboxErrorHint = inboxError
+    ? `${inboxError.message} (code ${inboxError.code ?? "unknown"})`
+    : null;
+  // Pass the user we already fetched — getAdminAccess must not re-fetch it,
+  // because that extra auth round-trip is what triggers Supabase rate limiting.
+  const access = await getAdminAccess(user);
 
   return (
     <main className="admin-shell">
@@ -57,17 +98,46 @@ export default async function AdminPage() {
           <div>
             <p className="eyebrow">Protected workspace</p>
             <h1 className="section-title">Admin dashboard</h1>
-            <p>Signed in as {user.email}</p>
+            <p className="admin-heading__meta">Signed in as <strong>{user.email}</strong></p>
           </div>
-          <form action="/auth/signout" method="post">
-            <button type="submit" className="button button--secondary">Sign out</button>
-          </form>
         </div>
+
+        {inboxErrorHint ? (
+          <div className="admin-access-warning" role="alert">
+            <strong>Some inbox data could not be loaded.</strong>
+            <p>
+              The database rejected a query for the inboxes, so an empty list below
+              does not mean there are no submissions. Supabase reported:
+              <code> {inboxErrorHint}</code>
+            </p>
+            <p>
+              This usually means the database schema has not been fully applied —
+              re-run <code>supabase/schema.sql</code> in the Supabase SQL Editor.
+            </p>
+          </div>
+        ) : null}
+
+        {access.checked && !access.isRegisteredAdmin ? (
+          <div className="admin-access-warning" role="alert">
+            <strong>This account is not registered as an admin.</strong>
+            <p>
+              You signed in successfully, but <strong>{user.email}</strong> is not listed in the
+              <code> admin_users</code> table, so the database hides every enquiry and
+              request from you. That is why an inbox can look empty even though
+              submissions were received. To fix it, run the admin_users seed at the
+              bottom of <code>supabase/schema.sql</code> with this email address.
+            </p>
+          </div>
+        ) : null}
 
         <div className="card-grid card-grid--three">
           <article className="page-card admin-list-card">
-            <p className="eyebrow">Inbox</p>
-            <h2>Contact enquiries ({contacts.length})</h2>
+            <p className="eyebrow">Inbox · private</p>
+            <h2>Contact enquiries ({contactSubmissionTotal})</h2>
+            <p className="admin-destination">Messages from the public contact form at <strong>/contact</strong>. They stay private to your team.</p>
+            {contactSubmissionTotal > contacts.length ? (
+              <p className="admin-destination">Showing the {contacts.length} most recent.</p>
+            ) : null}
             <a className="text-link" href="/admin/submissions/contact">Open inbox</a>
             {contacts.length ? (
               <ul className="admin-list">
@@ -82,8 +152,12 @@ export default async function AdminPage() {
             ) : <p>No contact enquiries yet.</p>}
           </article>
           <article className="page-card admin-list-card">
-            <p className="eyebrow">Intake</p>
-            <h2>Legal-help requests ({requests.length})</h2>
+            <p className="eyebrow">Intake · private</p>
+            <h2>Legal-help requests ({legalHelpRequestTotal})</h2>
+            <p className="admin-destination">Confidential requests from the public intake form at <strong>/legal-help</strong>. Internal notes stay private.</p>
+            {legalHelpRequestTotal > requests.length ? (
+              <p className="admin-destination">Showing the {requests.length} most recent.</p>
+            ) : null}
             <a className="text-link" href="/admin/submissions/legal">Open intake</a>
             {requests.length ? (
               <ul className="admin-list">
@@ -99,8 +173,14 @@ export default async function AdminPage() {
           </article>
           <article className="page-card">
             <p className="eyebrow">Publishing</p>
-            <h2>Resources</h2>
-            <p>Manage publications, rights education materials, and homepage media.</p>
+            <h2>Where your edits appear</h2>
+            <p>Everything you edit here is previewed against the exact public page before it goes live.</p>
+            <div className="admin-destination-list">
+              <a href="/admin/content/editions"><strong>Justice Bridge Index</strong> → /justice-bridge-index</a>
+              <a href="/admin/content/campaigns"><strong>Advocacy &amp; campaigns</strong> → /advocacy</a>
+              <a href="/admin/content/resources"><strong>Know Your Rights</strong> → /know-your-rights</a>
+              <a href="/admin/media"><strong>Media library</strong> → assets</a>
+            </div>
           </article>
         </div>
       </div>

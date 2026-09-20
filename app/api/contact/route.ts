@@ -22,6 +22,7 @@ export async function POST(request: Request) {
   const { error } = await supabase.from("contact_submissions").insert(submission);
 
   if (error) {
+    console.error("contact insert failed:", error);
     return NextResponse.json({ error: "The message could not be submitted." }, { status: 500 });
   }
 

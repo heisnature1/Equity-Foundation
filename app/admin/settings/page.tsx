@@ -1,8 +1,12 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { hasSupabaseConfig } from "@/lib/supabase-env";
 
 export default async function AdminSettingsPage() {
+  // Guard before the client call: without it an unconfigured project throws
+  // and renders a 500 instead of the dashboard's "not configured" notice.
+  if (!hasSupabaseConfig()) redirect("/admin");
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");

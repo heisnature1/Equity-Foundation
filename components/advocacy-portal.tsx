@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ShieldAlert,
@@ -18,6 +18,17 @@ import {
 } from "lucide-react";
 import DottedSurface from "@/components/ui/dotted-surface";
 
+/** A campaign row as stored in Supabase. Only published rows reach the client. */
+export type DbCampaign = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string | null;
+  content: string | null;
+  status: string;
+  published_at: string | null;
+};
+
 interface CampaignItem {
   id: string;
   tag: string;
@@ -26,9 +37,12 @@ interface CampaignItem {
   status: string;
   summary: string;
   fullScope: string;
-  metrics: string;
-  statutoryBasis: string;
-  keyOutcomes: string[];
+  // The curated campaigns below carry these dossier fields. A campaign
+  // published from the admin workspace only has a title, summary and body, so
+  // everything past this point is optional and rendered only when present.
+  metrics?: string;
+  statutoryBasis?: string;
+  keyOutcomes?: string[];
 }
 
 const defaultCampaigns: CampaignItem[] = [
@@ -88,10 +102,43 @@ const defaultCampaigns: CampaignItem[] = [
   },
 ];
 
-export function AdvocacyPortal() {
+const DB_STATUS_LABELS: Record<string, string> = {
+  published: "PUBLISHED CAMPAIGN",
+  draft: "DRAFT",
+  archived: "ARCHIVED",
+};
+
+function toCampaignItem(record: DbCampaign): CampaignItem {
+  return {
+    id: record.id,
+    tag: "PUBLIC-INTEREST CAMPAIGN",
+    icon: ShieldAlert,
+    title: record.title,
+    status: DB_STATUS_LABELS[record.status] ?? record.status.toUpperCase(),
+    summary: record.summary ?? "",
+    fullScope: record.content ?? "",
+  };
+}
+
+export function AdvocacyPortal({
+  dbCampaigns = [],
+}: {
+  dbCampaigns?: DbCampaign[];
+}) {
   const [selectedCampaign, setSelectedCampaign] = useState<CampaignItem | null>(
     null
   );
+
+  // Campaigns published from the admin workspace come first; the curated
+  // campaigns then fill in everything the database does not cover, so the page
+  // is never empty and an admin's published work is always visible.
+  const campaigns = useMemo(() => {
+    const published = dbCampaigns.map(toCampaignItem);
+    const curated = defaultCampaigns.filter(
+      (item) => !published.some((entry) => entry.title === item.title)
+    );
+    return [...published, ...curated];
+  }, [dbCampaigns]);
 
   return (
     <div className="advocacy-page-root">
@@ -149,7 +196,7 @@ export function AdvocacyPortal() {
 
         {/* 3-Column Campaign Grid */}
         <div className="advocacy-grid">
-          {defaultCampaigns.map((item) => {
+          {campaigns.map((item) => {
             const Icon = item.icon;
             return (
               <article key={item.id} className="advocacy-card">
@@ -165,10 +212,12 @@ export function AdvocacyPortal() {
                   <h2 className="advocacy-card__title">{item.title}</h2>
                   <p className="advocacy-card__desc">{item.summary}</p>
 
-                  <div className="advocacy-card__metrics">
-                    <span className="advocacy-card__dot" aria-hidden="true" />
-                    <span>{item.metrics}</span>
-                  </div>
+                  {item.metrics ? (
+                    <div className="advocacy-card__metrics">
+                      <span className="advocacy-card__dot" aria-hidden="true" />
+                      <span>{item.metrics}</span>
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="advocacy-card__footer">
@@ -241,23 +290,32 @@ export function AdvocacyPortal() {
               {selectedCampaign.title}
             </h2>
 
-            <p className="advocacy-modal-statutory">
-              <strong>Statutory Foundation:</strong> {selectedCampaign.statutoryBasis}
-            </p>
+            {selectedCampaign.statutoryBasis ? (
+              <p className="advocacy-modal-statutory">
+                <strong>Statutory Foundation:</strong> {selectedCampaign.statutoryBasis}
+              </p>
+            ) : null}
 
             <div className="advocacy-modal-body">
               <h3 className="modal-section-title">Operational Scope & Methodology</h3>
-              <p className="modal-text">{selectedCampaign.fullScope}</p>
+              <p className="modal-text">
+                {selectedCampaign.fullScope ||
+                  "The full campaign brief is being finalised. Contact our advocacy desk for the current scope and methodology for this campaign."}
+              </p>
 
-              <h3 className="modal-section-title">Verified Field Outcomes</h3>
-              <ul className="modal-outcomes-list">
-                {selectedCampaign.keyOutcomes.map((outcome) => (
-                  <li key={outcome}>
-                    <CheckCircle2 size={15} className="modal-check" aria-hidden="true" />
-                    <span>{outcome}</span>
-                  </li>
-                ))}
-              </ul>
+              {selectedCampaign.keyOutcomes?.length ? (
+                <>
+                  <h3 className="modal-section-title">Verified Field Outcomes</h3>
+                  <ul className="modal-outcomes-list">
+                    {selectedCampaign.keyOutcomes.map((outcome) => (
+                      <li key={outcome}>
+                        <CheckCircle2 size={15} className="modal-check" aria-hidden="true" />
+                        <span>{outcome}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
             </div>
 
             <div className="advocacy-modal-footer">
