@@ -96,7 +96,7 @@ const TOPICS_DATA: LegalTopic[] = [
       },
       {
         name: "Legal Aid Commission Counsel",
-        contact: "+233 302 669 220",
+        contact: "030 297 5749",
         note: "Court-appointed defense for indigent suspects",
       },
       {
@@ -306,7 +306,7 @@ const TOPICS_DATA: LegalTopic[] = [
     officialContacts: [
       {
         name: "Legal Aid Commission Secretariat",
-        contact: "+233 302 669 220",
+        contact: "030 297 5749",
         note: "Ministries, Accra — National headquarters",
       },
       {
@@ -585,7 +585,7 @@ export default function KnowYourRightsPortal({
             <div className="kyr-hero__hotline-item">
               <Scale size={14} className="kyr-hero__hotline-icon" aria-hidden="true" />
               <span className="kyr-hero__hotline-label">Legal Aid Commission:</span>
-              <span className="kyr-hero__hotline-number">+233 302 669 220</span>
+              <span className="kyr-hero__hotline-number">030 297 5749</span>
             </div>
           </div>
 

@@ -7,9 +7,9 @@ export const organization = {
 };
 
 export const contactDetails = {
-  phone: "[OFFICIAL PHONE NUMBER TO BE PROVIDED]",
+  phone: "0505652308",
   whatsapp: "[OFFICIAL WHATSAPP NUMBER TO BE PROVIDED]",
-  email: "[OFFICIAL EMAIL ADDRESS TO BE PROVIDED]",
+  email: "equitybridgefoundation@gmail.com",
   address: "[OFFICIAL ADDRESS TO BE PROVIDED]",
 };
 

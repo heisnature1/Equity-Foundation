@@ -79,9 +79,9 @@ export function ContactPortal({ initialSettings }: ContactPortalProps) {
     }
   };
 
-  const phone = initialSettings?.phone || "+233 302 669 220";
+  const phone = initialSettings?.phone || "0505652308";
   const whatsapp = initialSettings?.whatsapp || "+233 50 123 4567";
-  const email = initialSettings?.email || "info@equitybridgefoundation.org";
+  const email = initialSettings?.email || "equitybridgefoundation@gmail.com";
   const address =
     initialSettings?.address ||
     "Ridge / High Street Administrative District, Accra, Ghana";

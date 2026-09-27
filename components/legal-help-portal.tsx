@@ -154,9 +154,9 @@ export function LegalHelpPortal({ initialContent }: LegalHelpPortalProps) {
                   <Phone size={12} aria-hidden="true" />
                   <span>DOVVSU: 0800 111 222</span>
                 </a>
-                <a href="tel:+233302669220" className="emergency-pill">
+                <a href="tel:0302975749" className="emergency-pill">
                   <Phone size={12} aria-hidden="true" />
-                  <span>Legal Aid: 0302 669 220</span>
+                  <span>Legal Aid: 030 297 5749</span>
                 </a>
               </div>
             </div>
